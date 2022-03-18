@@ -1,0 +1,139 @@
+@import '../../styles/lib/sass/styles.scss';
+
+.newsPageContent {
+  font-family: 'Roboto', sans-serif;
+  line-height: 30px;
+
+  h1 {
+    font-size: $big-font;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+
+    @include media('>=tablet-portrait') {
+      font-size: $large-font;
+      padding: 40px 0;
+    }
+  }
+
+  .newsList {
+    margin: 25px 0;
+
+    @include media('>=tablet-portrait') {
+      margin: 40px 0;
+    }
+
+    .articlesContainer {
+      @include media('>=desktop') {
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-auto-rows: minmax(min-content, max-content);
+        width: fit-content;
+        grid-gap: 40px;
+        margin: 0 auto;
+      }
+    }
+
+    .articlesList {
+      margin: 0 auto;
+    }
+
+    .buttonContainer {
+      margin: 0 auto;
+      margin-top: 25px;
+    }
+  }
+}
+
+.inputsContainer {
+  @include flexCenter(row);
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+
+  label {
+    margin-right: 20px;
+  }
+
+  .inputContainer {
+    @include flexCenter(row);
+    justify-content: space-between;
+    width: fit-content;
+    height: 44px;
+    padding: 0 40px 20px 0;
+
+    input,
+    select {
+      width: 200px;
+      height: 100%;
+      filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.25));
+      border: none;
+      border-radius: 5px;
+      padding: 0;
+      border: $red-color 1.5px solid;
+      box-sizing: border-box;
+      background-color: $bg-color;
+      color: white;
+      padding: 10px;
+
+      option::placeholder {
+        padding: 10px;
+      }
+
+      &::placeholder {
+        padding-left: 5px;
+      }
+    }
+
+    select {
+      height: 40px;
+    }
+  }
+}
+
+.paginationContainer {
+  @include flexCenter(row);
+  width: 100%;
+  justify-content: flex-end;
+  padding-top: 40px;
+
+  .paginationContent {
+    @include flexCenter(row);
+    width: auto;
+
+    .paginationArrow {
+      &:hover {
+        opacity: 0.5;
+        cursor: pointer;
+        transition: all 0.2s linear;
+      }
+    }
+
+    .pagination {
+      @include flexCenter(row);
+      padding: 0 16px;
+
+      .paginationTile {
+        @include flexCenter(row);
+        height: 32px;
+        width: 32px;
+        border-radius: 5px;
+
+        &:hover {
+          background-color: $red-color;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.paginationActive {
+  background-color: $red-color;
+  color: white;
+}
