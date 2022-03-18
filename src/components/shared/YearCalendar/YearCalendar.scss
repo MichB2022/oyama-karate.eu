@@ -1,0 +1,116 @@
+@import '../../../lib/sass/styles.scss';
+
+$arrow-size: 50px;
+
+.year-calendar-container {
+  width: 980px;
+  height: auto;
+  margin: 40px auto 0 auto;
+
+  .year-arrows-container {
+    @include flexCenter(row);
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
+
+    .arrow-left,
+    .arrow-right {
+      font-size: $arrow-size;
+
+      &:hover {
+        cursor: pointer;
+        color: red;
+        transform: scale(1.1);
+        transition: all linear 0.3s;
+      }
+    }
+
+    .year {
+      font-size: $arrow-size;
+      font-weight: 900;
+      letter-spacing: 3px;
+    }
+  }
+
+  .months-container {
+    width: 100%;
+    display: grid;
+    grid-template: repeat(4, 270px) / repeat(3, 1fr);
+    grid-gap: auto;
+
+    .month-container {
+      margin: 10px;
+      box-sizing: border-box;
+      height: auto;
+    }
+
+    .month-name {
+      width: 100%;
+      height: auto;
+      padding: 10px 0;
+      background-color: red;
+      font-size: $med-font;
+      text-align: center;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .week-days-names {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+
+      .week-day {
+        @include flexCenter(row);
+        height: 30px;
+        background-color: white;
+        color: black;
+        font-size: $tiny-font;
+      }
+    }
+
+    .day-tiles-container {
+      display: grid;
+      grid-template: repeat(6, 1fr) / repeat(7, 1fr);
+      background-color: white;
+      box-sizing: border-box;
+
+      .day-tile {
+        @include flexCenter(row);
+        width: 100%;
+        height: 30px;
+        color: black;
+        font-size: $small-font;
+      }
+    }
+  }
+}
+
+.event {
+  background-color: red;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.current-day {
+  background-color: $current-day-color;
+}
+
+.event-type-tournament {
+  background-color: $tournament-color;
+  color: $events-font-color !important;
+}
+
+.event-type-seminary {
+  background-color: $seminary-color;
+  color: $events-font-color !important;
+}
+
+.event-type-camp {
+  background-color: $camp-color;
+  color: $events-font-color !important;
+}

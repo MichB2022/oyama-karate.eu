@@ -1,0 +1,150 @@
+@import '../../../styles/lib/sass/styles.scss';
+
+.navScroll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  opacity: 0;
+
+  position: fixed;
+  z-index: 5;
+  right: 25px;
+  top: 25px;
+
+  @include media('>=tablet-landscape') {
+    &:hover {
+      border-color: #b7140b;
+      color: #b7140b;
+      transform: scale(1.3);
+      transition: 0.5s;
+      cursor: pointer;
+    }
+  }
+
+  @include media('<=mobile') {
+    font-size: $big-font;
+  }
+
+  .navIcon {
+    display: flex;
+  }
+}
+
+.navScrollAnimEnterActive {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.navScrollAnimExit,
+.navScrollAnimEnterDone {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.navScrollAnimActive,
+.navScrollAnimExitDone {
+  opacity: 0;
+}
+
+.scrollDropdown {
+  font-family: 'Open Sans Condensed', sans-serif;
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: flex-start;
+  align-items: center;
+  top: 0;
+  overflow-y: scroll;
+
+  .navLinkDropdown {
+    width: 100%;
+    background-color: #202020;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .navLink {
+      height: 40px;
+      border: none;
+      font-size: $small-font;
+      font-weight: 500;
+      width: auto;
+
+      @include media('>=tablet-landscape') {
+        &:hover {
+          color: $red-color;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+      }
+
+      .navIcon {
+        margin-left: 5px;
+      }
+
+      @include media('>=tablet-portrait') {
+        height: 50px;
+      }
+
+      @include media('>=tablet-landscape') {
+        font-size: $med-font;
+      }
+    }
+  }
+
+  .closeIcon {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: $big-font;
+
+    svg {
+      padding: 25px 25px 0 0;
+
+      @include media('>=tablet-landscape') {
+        &:hover {
+          color: $red-color;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+
+  .navLinks {
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .navLink {
+      margin: 15px;
+      padding: 10px;
+      height: auto;
+      display: flex;
+
+      @include media('>=tablet-landscape') {
+        &:hover {
+          color: $red-color;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+      }
+
+      .navIcon {
+        margin-left: 5px;
+      }
+    }
+  }
+}

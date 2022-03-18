@@ -1,0 +1,119 @@
+@import '../../../styles/lib/sass/styles.scss';
+
+.footer {
+  height: fit-content;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+
+  hr {
+    margin: 15px 0;
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(255, 255, 255, 0.75),
+      rgba(0, 0, 0, 0)
+    );
+  }
+
+  section {
+    font-family: 'Open Sans Condensed', sans-serif;
+    line-height: 25px;
+    font-size: $small-font;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+
+    @include media('>=tablet-portrait') {
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      font-size: $med-font;
+      gap: 50px;
+    }
+
+    .footerInfo {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      @include media('>=tablet-portrait') {
+        align-items: flex-start;
+      }
+    }
+  }
+
+  .pageMap {
+    margin-top: 10px;
+    width: 60%;
+    text-align: center;
+    @include media('>=tablet-portrait') {
+      width: 40%;
+      text-align: left;
+    }
+
+    h4 {
+      margin: 10px 0;
+    }
+
+    .pageMapItems {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+
+      p {
+        padding: 5px 15px 0 0;
+        font-size: 14px;
+        font-weight: 400;
+
+        @include media('>=tablet-landscape') {
+          &:hover {
+            color: $red-color;
+            cursor: pointer;
+            transition: 0.5s;
+          }
+        }
+      }
+    }
+  }
+
+  .formalInfo {
+    font-family: 'Open Sans Condensed', sans-serif;
+    line-height: 20px;
+    font-size: $small-font;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .copyright {
+      font-size: $tiny-font;
+
+      @include media('>=tablet-portrait') {
+        font-size: $small-font;
+      }
+    }
+
+    .creatorAd {
+      font-size: $tiny-font;
+
+      @include media('>=tablet-portrait') {
+        font-size: $small-font;
+      }
+
+      @include media('>=tablet-landscape') {
+        &:hover {
+          color: #5cb25d;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+@import '../../styles/lib/sass/styles.scss';
+
+.sectionsPageContent {
+  font-family: 'Roboto', sans-serif;
+  line-height: 30px;
+
+  @include media('>=desktop') {
+    .container {
+      width: 100%;
+    }
+  }
+
+  .sectionsPageGridContainer {
+    @include media('>=desktop') {
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 65% 35%;
+      align-items: start;
+      // column-gap: 10px;
+    }
+    .sectionsContent {
+      grid-column-start: 1;
+      width: 100%;
+
+      @include media('>=desktop') {
+        padding-right: 100px;
+        justify-content: right;
+        margin: 0 0 0 auto;
+        max-width: 80%;
+        padding-bottom: 40px;
+      }
+
+      .title {
+        padding: 25px 0;
+        width: 100%;
+        text-align: center;
+        font-size: $big-font;
+        font-weight: 800;
+
+        @include media('>=tablet-portrait') {
+          font-size: $large-font;
+          padding: 40px 0;
+        }
+      }
+    }
+
+    .articleListContainer {
+      height: 100%;
+
+      background-color: $darker-bg-color;
+
+      @include media('>=desktop') {
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 0;
+        justify-content: flex-start;
+        padding-left: 100px;
+      }
+    }
+  }
+}

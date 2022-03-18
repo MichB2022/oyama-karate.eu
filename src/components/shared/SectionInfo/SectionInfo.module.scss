@@ -1,0 +1,295 @@
+@import '../../../../styles/lib/sass/styles.scss';
+
+.qlEditor {
+  padding: 0;
+}
+
+.groupDescription {
+  font-size: $tiny-font;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: left;
+  margin: 25px 18px;
+  line-height: 16px;
+  box-sizing: border-box;
+
+  @include media('>=tablet-portrait') {
+    margin: 25px 0;
+  }
+
+  @include media('>=tablet-portrait', '<=tablet-landscape') {
+    font-size: $med-font;
+    line-height: 22px;
+  }
+
+  @include media('>=tablet-landscape') {
+    font-size: $big-font;
+    line-height: 27px;
+  }
+
+  @include media('>=desktop') {
+    font-size: $med-font;
+    line-height: 25px;
+  }
+}
+
+.container {
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
+
+  @include media('>=tablet-portrait') {
+    width: 748px;
+  }
+
+  @include media('>=tablet-landscape') {
+    width: 980px;
+  }
+
+  @include media('>=desktop') {
+    width: 100%;
+  }
+}
+
+.scheduleWrapper {
+  box-sizing: border-box;
+  background-color: $red-color;
+  width: 100%;
+
+  .scheduleParallax {
+    background-color: rgba(0, 0, 0, 0.6);
+
+    @include media('>=desktop') {
+      width: 100%;
+    }
+  }
+
+  .container {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+
+    .scheduleInfoWrapper {
+      padding: 25px 18px;
+    }
+  }
+
+  .scheduleTitle {
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    height: auto;
+    text-align: center;
+
+    @include media('>=tablet-portrait') {
+      font-size: 22px;
+      padding: 10px 0;
+    }
+
+    @include media('>=tablet-landscape', '<=desktop') {
+      font-size: $large-font;
+    }
+  }
+
+  .location {
+    font-weight: 700;
+    font-size: $tiny-font;
+    width: 100%;
+    height: auto;
+    text-align: left;
+
+    @include media('>=tablet-portrait') {
+      font-size: $med-font;
+      padding: 5px 0;
+    }
+
+    @include media('>=tablet-landscape', '<=desktop') {
+      font-size: $big-font;
+    }
+  }
+
+  $schedule-border: 1px solid white;
+
+  .schedule {
+    width: 100%;
+    line-height: 20px;
+
+    @include media('>=mobile') {
+      line-height: 30px;
+    }
+
+    thead {
+      font-size: $tiny-font;
+      font-weight: 600;
+
+      @include media('>=tablet-portrait', '<=tablet-landscape') {
+        font-size: $med-font;
+      }
+
+      @include media('>=tablet-landscape', '<=desktop') {
+        font-size: $big-font;
+      }
+
+      .daysRow {
+        text-align: left;
+        th {
+          padding-left: 10px;
+          padding-bottom: 5px;
+
+          @include media('>=mobile') {
+            padding-left: 30px;
+          }
+        }
+      }
+    }
+
+    tbody {
+      .hours {
+        width: 1%;
+        white-space: nowrap;
+      }
+
+      tr {
+        border-top: $schedule-border;
+        font-size: $tiny-font;
+        font-weight: 600;
+
+        &:first-of-type {
+          border-top: none;
+        }
+
+        @include media('>=tablet-portrait', '<=tablet-landscape') {
+          font-size: $med-font;
+        }
+
+        @include media('>=tablet-landscape', '<=desktop') {
+          font-size: $big-font;
+        }
+
+        .hours {
+          border-left: $schedule-border;
+          padding: 0 10px;
+
+          &:last-child {
+            padding: 0 0 0 10px;
+          }
+
+          @include media('>=mobile') {
+            padding: 0 30px;
+
+            &:last-child {
+              padding: 0 0 0 30px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.googleMapsLocalisation {
+  width: 100%;
+  height: 400px;
+  padding: 25px 18px;
+  box-sizing: border-box;
+
+  @include media('>=tablet-portrait') {
+    padding: 25px 0;
+  }
+
+  .container {
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+
+    @include media('>=tablet-portrait') {
+      width: 748px;
+    }
+
+    @include media('>=tablet-landscape') {
+      width: 980px;
+    }
+
+    @include media('>=desktop') {
+      width: 100%;
+    }
+  }
+}
+
+.contact {
+  padding: 0;
+  position: relative;
+  width: 100%;
+
+  .contactParallax {
+    background-color: rgba(0, 0, 0, 0.6);
+
+    @include media('>=desktop') {
+      width: 100%;
+    }
+  }
+
+  .contactContainer {
+    position: relative;
+    top: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 25px 18px;
+    width: auto;
+
+    .contactTitle {
+      font-size: 18px;
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+
+      @include media('>=tablet-portrait', '<=tablet-landscape') {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+
+      @include media('>=tablet-landscape', '<=desktop') {
+        font-size: $large-font;
+        margin-bottom: 20px;
+      }
+    }
+
+    .phoneNr {
+      @include flexCenter(row);
+      font-size: $big-font;
+      font-weight: 800;
+      color: $red-color;
+      margin-bottom: 10px;
+
+      @include media('>=tablet-portrait', '<=tablet-landscape') {
+        font-size: $large-font;
+        margin-bottom: 15px;
+      }
+
+      @include media('>=tablet-landscape', '<=desktop') {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      div {
+        padding-left: 15px;
+      }
+    }
+
+    @include media('>=mobile') {
+      padding: 40px 18px;
+    }
+
+    @include media('>=tablet-portrait') {
+      padding: 40px 0;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+    }
+  }
+}

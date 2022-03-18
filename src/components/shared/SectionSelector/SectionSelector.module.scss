@@ -1,0 +1,54 @@
+@import '../../../../styles/lib/sass/styles.scss';
+
+.sectionSelectorButtonContainer {
+  width: 100%;
+  background-color: $red-color;
+
+  .container {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    flex-wrap: wrap;
+    padding: 5px;
+    box-sizing: border-box;
+
+    font-size: $tiny-font;
+    font-weight: 800;
+
+    @include media('>=tablet-portrait') {
+      column-gap: 50px;
+      font-size: $med-font;
+      padding: 15px;
+    }
+
+    @include media('>=tablet-landscape', '<=desktop') {
+      column-gap: 80px;
+    }
+
+    .sectionSelectorButton {
+      text-align: center;
+      letter-spacing: 0.4px;
+      box-sizing: border-box;
+
+      @include media('>=tablet-landscape') {
+        &:hover {
+          color: black;
+          transform: scale(1.1);
+          transition: 0.3s linear all;
+          cursor: pointer;
+        }
+      }
+
+      @include media('>=tablet-landscape', '<=desktop') {
+        font-size: $big-font;
+        font-weight: 800;
+      }
+    }
+
+    .active {
+      color: black;
+    }
+  }
+}
