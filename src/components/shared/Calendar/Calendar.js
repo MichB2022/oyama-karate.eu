@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import './Calendar.scss';
+import styles from './Calendar.module.scss';
 import CalendarContext from './CalendarContext';
 import CalendarView from './CalendarView';
 import DayTile from './DayTile.js';
@@ -183,7 +183,7 @@ function Calendar() {
   const generateWeekDays = () => {
     let weekDays = [];
     for (let i = 0; i < weekDaysNames.length; i++) {
-      weekDays.push(<div className='week-day'>{weekDaysNames[i]}</div>);
+      weekDays.push(<div className={styles.weekDay}>{weekDaysNames[i]}</div>);
     }
     return weekDays;
   };
@@ -197,10 +197,10 @@ function Calendar() {
           style={{ gridColumnStart: `${((startDay + i - 1) % 7) + 1}` }}
           className={
             i + 1 === new Date().getDate() &&
-            chosenMonth + 1 === new Date().getMonth() &&
+            chosenMonth === new Date().getMonth() &&
             chosenYear === new Date().getFullYear()
-              ? 'day-tile current-day'
-              : 'day-tile'
+              ? `${styles.dayTile} ${styles.currentDay}`
+              : styles.dayTile
           }
           chosenMonth={chosenMonth}
           chosenYear={chosenYear}
@@ -216,7 +216,7 @@ function Calendar() {
     for (let i = 2012; i < 2050; i++) {
       yearsListItems.push(
         <li
-          className='year-item'
+          className={styles.yearItem}
           onClick={(event) => {
             dispatch({ type: 'SET_IS_MONTH_CHOSEN', payload: true });
             dispatch({ type: 'SET_PREV_CHOSEN_YEAR', payload: chosenYear });
@@ -259,7 +259,7 @@ function Calendar() {
     let monthListItems = [];
     for (let i = 0; i <= 11; i++) {
       monthListItems.push(
-        <li className='month-item' onClick={handleMonthChooseClick}>
+        <li className={styles.monthItem} onClick={handleMonthChooseClick}>
           {months[i].name}
         </li>
       );

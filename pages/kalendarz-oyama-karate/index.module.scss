@@ -1,0 +1,146 @@
+@import '../../styles/lib/sass/styles.scss';
+
+.calendarTitle {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  padding-top: 30px;
+  letter-spacing: 0.3px;
+
+  @include media('>=mobile', '<=tablet-landscape') {
+    padding-top: 50px;
+  }
+
+  @include media('>=desktop') {
+    padding-top: 60px;
+  }
+}
+
+.calendarDescription {
+  width: 90%;
+  height: auto;
+  text-align: center;
+  font-size: $medder-font;
+  font-weight: 300;
+  margin: 20px auto;
+  line-height: 1.1;
+
+  span {
+    //color: rgb(190, 15, 15);
+    font-size: $med-font;
+    font-weight: 200;
+  }
+
+  @include media('>=mobile', '<=tablet-landscape') {
+    margin: 50px auto;
+  }
+
+  @include media('>=desktop') {
+    margin: 40px auto;
+  }
+}
+
+.eventClickInstruction {
+  padding: 25px 0;
+  color: red;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.calendarInfo {
+  width: 90%;
+  height: auto;
+  font-size: $small-font;
+  font-weight: 200;
+  margin: 0 auto;
+
+  @include media('>=mobile', '<=tablet-portrait') {
+    font-size: $med-font;
+    font-weight: 400;
+  }
+
+  @include media('>=tablet-portrait', '<=tablet-landscape') {
+    font-size: $big-font;
+    font-weight: 400;
+  }
+
+  @include media('>=tablet-landscape', '<=desktop') {
+    margin: 30px auto;
+    font-size: $big-font;
+    font-weight: 400;
+  }
+
+  @include media('>=desktop') {
+    margin: 40px auto;
+    font-size: $big-font;
+    font-weight: 400;
+  }
+
+  .calendarInfoList {
+    list-style-type: none;
+    box-sizing: border-box;
+    line-height: 1.1;
+    letter-spacing: 0.1px;
+
+    .calendarInfoListItem {
+      margin-bottom: 20px;
+      line-height: 18px;
+
+      @include media('>=mobile', '<=tablet-portrait') {
+        line-height: 20px;
+      }
+
+      @include media('>=tablet-portrait', '<=tablet-landscape') {
+        line-height: 24px;
+      }
+
+      @include media('>=tablet-landscape', '<=desktop') {
+        line-height: 28px;
+      }
+
+      @include media('>=desktop') {
+        line-height: 30px;
+      }
+    }
+  }
+}
+
+.calendar {
+  margin: 0 auto;
+  max-width: 320px;
+
+  @include media('>=mobile', '<=tablet-landscape') {
+    max-width: 420px;
+  }
+
+  // @include media('>=tablet-portrait', '<=tablet-landscape') {
+  //   max-width: 520px;
+  // }
+}
+
+.eventInfo {
+  @extend .calendar;
+  margin: 40px auto 40px auto;
+  width: 90%;
+  height: auto;
+}
+
+.eventSwitcherInstuction {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  font-size: $med-font;
+  padding: 20px;
+  padding-top: 0;
+  box-sizing: border-box;
+  color: red;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  line-height: 1.3;
+}
+
+.outsideTable {
+  margin-bottom: 30px;
+}

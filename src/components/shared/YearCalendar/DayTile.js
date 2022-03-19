@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './DayTile.scss';
+import styles from './DayTile.module.scss';
 import Modal from './Modal';
 
 const DayTile = ({ event, startDay, i, className }) => {
@@ -23,7 +23,7 @@ const DayTile = ({ event, startDay, i, className }) => {
       <div
         className={
           event && eventDate < currentDate
-            ? `past-event ${className}`
+            ? `${styles.pastEvent} ${className}`
             : className
         }
         style={{ gridColumnStart: `${((startDay + i - 1) % 7) + 1}` }}

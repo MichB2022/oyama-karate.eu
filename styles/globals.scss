@@ -51,3 +51,116 @@ a {
     margin-top: 0;
   }
 }
+
+/* inspired by: https://css-tricks.com/responsive-data-tables/ */
+.responsiveTable {
+  width: 100%;
+}
+
+.responsiveTable td .tdBefore {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  /*
+    Force table elements to not behave like tables anymore
+    Hide table headers (but not display: none;, for accessibility)
+  */
+
+  .responsiveTable table,
+  .responsiveTable thead,
+  .responsiveTable tbody,
+  .responsiveTable th,
+  .responsiveTable td,
+  .responsiveTable tr {
+    display: block;
+  }
+
+  .responsiveTable thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    border-bottom: 2px solid #333;
+  }
+
+  .responsiveTable tbody tr {
+    border: 1px solid #000;
+    padding: 0.25em;
+  }
+
+  .responsiveTable td.pivoted {
+    /* Behave like a "row" */
+    border: none !important;
+    position: relative;
+    padding-left: calc(50% + 10px) !important;
+    text-align: left !important;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+
+  .responsiveTable td .tdBefore {
+    /* Now like a table header */
+    position: absolute;
+    display: block;
+
+    /* Top/left values mimic padding */
+    left: 1rem;
+    width: calc(50% - 20px);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: left !important;
+    font-weight: 600;
+  }
+}
+
+.Collapsible svg {
+  stroke-width: 1.5;
+}
+.Collapsible {
+  margin-bottom: 25px;
+}
+
+// @include media('>tablet-landscape') {
+//   margin-bottom: 40px;
+// }
+
+.Collapsible__trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include media('>tablet-portrait') {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+.Collapsible__trigger.is-open {
+  @include media('<=tablet-landscape') {
+    h3 {
+      text-align: left;
+      margin: 0;
+    }
+  }
+  svg {
+    transform: rotate(90deg);
+    transition: 0.5s;
+  }
+}
+
+.Collapsible__trigger.is-closed svg {
+  transform: rotate(0deg);
+  transition: 0.3s;
+}
+
+.instructors {
+  .Collapsible__trigger {
+    @include media('>tablet-landscape') {
+      &:hover {
+        color: $red-color;
+        cursor: pointer;
+        transition: 0.5s;
+      }
+    }
+  }
+}

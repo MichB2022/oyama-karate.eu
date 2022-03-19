@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import CalendarContext from './CalendarContext';
-import './EventInfo.scss';
+import styles from './EventInfo.module.scss';
 import {
   BsFillArrowLeftSquareFill,
   BsFillArrowRightSquareFill
 } from 'react-icons/bs';
 import axios from 'axios';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import { API_URL } from '../../../configs/api';
 
 const EventInfo = () => {
   const { event, dispatch, chosenMonth, chosenYear, currentEvents } =
@@ -60,25 +59,25 @@ const EventInfo = () => {
       eventDate < currentDate ? '(wydarzenie się już odbyło)' : '';
 
     return (
-      <div className='edges'>
+      <div className={styles.edges}>
         <div
-          className='event-container'
+          className={styles.eventContainer}
           style={{ backgroundImage: `url(${imgSrc})` }}
         >
-          <div className='vignette'>
-            <h2 className='title'>{title}</h2>
-            <p className='address'>{`${address}, ${city}`}</p>
-            <p className='date'>
+          <div className={styles.vignette}>
+            <h2 className={styles.title}>{title}</h2>
+            <p className={styles.address}>{`${address}, ${city}`}</p>
+            <p className={styles.date}>
               {`${
                 dayStart === dayEnd
                   ? setDate(dayStart)
                   : `${setDate(dayStart)} - ${setDate(dayEnd)}`
               }.${setDate(month)}.${year} ${ifEventWas}`}
             </p>
-            <p className='description'>{description}</p>
-            <div className='arrows-container'>
+            <p className={styles.description}>{description}</p>
+            <div className={styles.arrowsContainer}>
               <BsFillArrowLeftSquareFill
-                className='arrow'
+                className={styles.arrow}
                 onClick={() => {
                   const eventIndex = events.indexOf(event);
                   if (
@@ -111,7 +110,7 @@ const EventInfo = () => {
                 }}
               />
               <BsFillArrowRightSquareFill
-                className='arrow'
+                className={styles.arrow}
                 onClick={() => {
                   const eventIndex = events.indexOf(event);
                   if (
@@ -141,7 +140,6 @@ const EventInfo = () => {
                     });
                     dispatch({ type: 'SET_LOUDER', payload: true });
                   }
-                  console.log();
                 }}
               />
             </div>

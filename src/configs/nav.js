@@ -48,11 +48,11 @@ export const getNavConfig = async () => {
         subItems: [
           {
             title: 'Kalendarz',
-            to: '/kalendarz'
+            to: '/kalendarz-oyama-karate'
           },
           {
             title: 'Harmonogram zajęć',
-            to: '/harmonogram-zajec'
+            to: '/harmonogram-zajec-karate'
           },
           {
             title: 'Nasi instruktorzy',

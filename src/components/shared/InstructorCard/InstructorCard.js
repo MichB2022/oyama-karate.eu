@@ -2,6 +2,7 @@
 import Button from '../Button/Button';
 import instructorPhoto from '../../../assets/instruktor.jpeg';
 import styles from './InstructorCard.module.scss';
+import Link from 'next/link';
 
 function InstructorCard({ animation, instructor }) {
   const { id, name, description, degree } = instructor;
@@ -19,11 +20,13 @@ function InstructorCard({ animation, instructor }) {
           </h3>
           <p>{description}</p>
         </div>
-        {/* <Link className={styles.instructorLink} to={`/instruktorzy/${id}`}> */}
-        <div className={styles.btnContainer}>
-          <Button text={'Czytaj dalej'} />
-        </div>
-        {/* </Link> */}
+        <Link href={`/instruktorzy/${id}`}>
+          <a className={styles.instructorLink}>
+            <div className={styles.btnContainer}>
+              <Button text={'Czytaj dalej'} />
+            </div>
+          </a>
+        </Link>
       </div>
     </div>
   );

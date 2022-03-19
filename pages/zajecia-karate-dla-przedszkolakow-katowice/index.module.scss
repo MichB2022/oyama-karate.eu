@@ -15,7 +15,7 @@
       display: grid;
       grid-template-rows: 100%;
       grid-template-columns: 65% 35%;
-      align-items: start;
+      align-items: flex-start;
     }
     .kinderContent {
       grid-column-start: 1;

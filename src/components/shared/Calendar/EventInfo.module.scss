@@ -1,4 +1,4 @@
-@import '../../../lib/sass/styles.scss';
+@import '../../../../styles/lib/sass/styles.scss';
 
 $border-width: 3px;
 
@@ -34,7 +34,7 @@ $border-width: 3px;
     margin: auto;
   }
 
-  .event-container {
+  .eventContainer {
     margin: 0 auto;
     width: 100%;
     height: auto;
@@ -89,7 +89,7 @@ $border-width: 3px;
       .address {
         padding: 0 25px 20px 25px;
         width: 100%;
-        text-align: start;
+        text-align: flex-start;
         box-sizing: border-box;
         font-size: $med-font;
         font-weight: 700;
@@ -99,21 +99,21 @@ $border-width: 3px;
         @extend .address;
       }
 
-      .description-title {
+      .descriptionTitle {
         @extend .address;
         padding-top: 20px;
       }
 
       .description {
         padding: 0 25px 0 35px;
-        text-align: start;
+        text-align: flex-start;
         box-sizing: border-box;
         font-size: $small-font;
         font-weight: 400;
         line-height: 1.2;
       }
 
-      .arrows-container {
+      .arrowsContainer {
         width: 100%;
         height: auto;
         @include flexCenter(row);

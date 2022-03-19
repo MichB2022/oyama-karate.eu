@@ -1,20 +1,20 @@
-@import '../../../lib/sass/styles.scss';
+@import '../../../../styles/lib/sass/styles.scss';
 
 $arrow-size: 50px;
 
-.year-calendar-container {
+.yearCalendarContainer {
   width: 980px;
   height: auto;
   margin: 40px auto 0 auto;
 
-  .year-arrows-container {
+  .yearArrowsContainer {
     @include flexCenter(row);
     justify-content: space-between;
     width: 100%;
     margin-bottom: 30px;
 
-    .arrow-left,
-    .arrow-right {
+    .arrowLeft,
+    .arrowRight {
       font-size: $arrow-size;
 
       &:hover {
@@ -32,19 +32,19 @@ $arrow-size: 50px;
     }
   }
 
-  .months-container {
+  .monthsContainer {
     width: 100%;
     display: grid;
     grid-template: repeat(4, 270px) / repeat(3, 1fr);
     grid-gap: auto;
 
-    .month-container {
+    .monthContainer {
       margin: 10px;
       box-sizing: border-box;
       height: auto;
     }
 
-    .month-name {
+    .monthName {
       width: 100%;
       height: auto;
       padding: 10px 0;
@@ -57,12 +57,12 @@ $arrow-size: 50px;
       letter-spacing: 0.5px;
     }
 
-    .week-days-names {
+    .weekDaysNames {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
 
-      .week-day {
+      .weekDay {
         @include flexCenter(row);
         height: 30px;
         background-color: white;
@@ -71,13 +71,13 @@ $arrow-size: 50px;
       }
     }
 
-    .day-tiles-container {
+    .dayTilesContainer {
       display: grid;
       grid-template: repeat(6, 1fr) / repeat(7, 1fr);
       background-color: white;
       box-sizing: border-box;
 
-      .day-tile {
+      .dayTile {
         @include flexCenter(row);
         width: 100%;
         height: 30px;
@@ -89,14 +89,20 @@ $arrow-size: 50px;
 }
 
 .event {
-  background-color: red;
+  background-color: aquamarine !important;
 
   &:hover {
     cursor: pointer;
   }
 }
 
-.current-day {
+.eventType {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.currentDay {
   background-color: $current-day-color;
 }
 

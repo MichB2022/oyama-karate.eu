@@ -1,5 +1,5 @@
 import React from 'react';
-import './ColorsDescription.scss';
+import styles from './ColorsDescription.module.scss';
 
 const ColorsDescription = ({ width }) => {
   const colors = [
@@ -31,15 +31,19 @@ const ColorsDescription = ({ width }) => {
     for (const color of colors) {
       colorTiles.push(
         <li
-          className='color-list-item'
+          key={color.meaning}
+          className={styles.colorListItem}
           style={
             width >= 1024
               ? { gridColumnStart: ((i - 1) % 3) + 1 }
               : { gridRowStart: i }
           }
         >
-          <div className='color' style={{ backgroundColor: color.color }}></div>
-          <div className='meaning'>{color.meaning}</div>
+          <div
+            className={styles.color}
+            style={{ backgroundColor: color.color }}
+          ></div>
+          <div className={styles.meaning}>{color.meaning}</div>
         </li>
       );
       i++;
@@ -50,7 +54,7 @@ const ColorsDescription = ({ width }) => {
 
   return (
     <ul
-      className={width >= 1024 ? 'year-colors-list' : 'colors-list'}
+      className={width >= 1024 ? styles.yearColorsList : styles.colorsList}
       // style={width >= 1024 ? { gridTemplate: '100% / repeat(5, 1fr)' } : ''}
     >
       {generateColorTiles()}
