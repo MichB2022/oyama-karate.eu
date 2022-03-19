@@ -3,6 +3,7 @@ import { TiThMenuOutline } from 'react-icons/ti';
 import { VscChromeClose } from 'react-icons/vsc';
 import logo from '../assets/logo.png';
 import axios from 'axios';
+import slugify from 'slugify';
 
 const API_URL = 'http://localhost:49153/api/v1';
 
@@ -74,7 +75,10 @@ export const getNavConfig = async () => {
   infoPages.map((element) =>
     navConfig.items
       .find((el) => el.title === 'Informacje')
-      .subItems.push({ title: element.title, to: `/info/${element.id}` })
+      .subItems.push({
+        title: element.title,
+        to: `/${slugify(element.title, { lower: true })}/${element.id}`
+      })
   );
 
   return navConfig;

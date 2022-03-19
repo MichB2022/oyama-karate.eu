@@ -5,7 +5,7 @@ import styles from './InstructorCard.module.scss';
 import Link from 'next/link';
 
 function InstructorCard({ animation, instructor }) {
-  const { id, name, description, degree } = instructor;
+  const { id, name, description, degree, title } = instructor;
   return (
     <div className={styles.card}>
       <img
@@ -16,7 +16,7 @@ function InstructorCard({ animation, instructor }) {
       <div className={styles.vignette}>
         <div className={styles.instructorInfo}>
           <h3>
-            Sensei {name}, {degree}
+            {title} {name}, {degree}
           </h3>
           <p>{description}</p>
         </div>

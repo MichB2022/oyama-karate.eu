@@ -20,7 +20,8 @@ const Instructors = ({ instructors, instructorId }) => {
                   className='instructors'
                   trigger={
                     <>
-                      <h3>{` ${el.name}, ${el.degree}`}</h3> <BsChevronDown />
+                      <h3>{` ${el.title} ${el.name}, ${el.degree}`}</h3>{' '}
+                      <BsChevronDown />
                     </>
                   }
                   open={instructorId && instructorId == el.id}

@@ -24,7 +24,8 @@
     "react-scroll-parallax": "^2.4.3",
     "react-share": "^4.4.0",
     "react-super-responsive-table": "^5.2.0",
-    "sass": "^1.49.9"
+    "sass": "^1.49.9",
+    "slugify": "^1.6.5"
   },
   "devDependencies": {
     "eslint": "8.11.0",

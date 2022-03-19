@@ -5,6 +5,13 @@ class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta charSet='utf-8' />
+          <meta
+            property='og:site_name'
+            content='oyama-karate.eu'
+            key='ogsitename'
+          />
+          <link rel='icon' href='/logo.png' />
           <link
             href='https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&family=Open+Sans:wght@300;400;500;600;700;800&display=swap'
             rel='stylesheet'

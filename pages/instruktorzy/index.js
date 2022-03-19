@@ -7,14 +7,6 @@ import ArticleListContainer from '../../src/components/shared/ArticleListContain
 import { API_URL } from '../../src/configs/api';
 
 const Instructors = ({ instructors }) => {
-  // const instructorId = params.id;
-  // const [instructors, setInstructors] = useState([]);
-
-  // useEffect(async () => {
-  //   const data = await axios.get(`${API_URL}/instructors`);
-  //   setInstructors(data.data.data);
-  // }, []);
-
   return (
     <article className={styles.infoPage}>
       <section className={styles.mainContent}>
@@ -28,7 +20,8 @@ const Instructors = ({ instructors }) => {
                   className='instructors'
                   trigger={
                     <>
-                      <h3>{` ${el.name}, ${el.degree}`}</h3> <BsChevronDown />
+                      <h3>{`${el.title} ${el.name}, ${el.degree}`}</h3>{' '}
+                      <BsChevronDown />
                     </>
                   }
                   // open={instructorId && instructorId == el.id}
