@@ -145,7 +145,7 @@ const ArticlePage = ({ firstArticle }) => {
                   <div className={styles.articleCategory}></div>
                   <div className={styles.articleText}>
                     <div
-                      className={styles.qlEditor}
+                      className='ql-editor'
                       dangerouslySetInnerHTML={{ __html: article.text }}
                     />
                   </div>

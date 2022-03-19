@@ -24,7 +24,7 @@ const SectionInfo = ({ section }) => {
     <>
       <div className={styles.container}>
         <div
-          className={`${styles.groupDescription} ${styles.qlEditor}`}
+          className={`${styles.groupDescription} ql-editor`}
           dangerouslySetInnerHTML={{ __html: section.description }}
         ></div>
       </div>

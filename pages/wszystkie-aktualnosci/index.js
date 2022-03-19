@@ -96,11 +96,14 @@ const NewsPage = ({ firstArticlesSet, firstPagination, categories }) => {
             {loader && <Loader />}
             {!loader && (
               <section>
+                {/* <div className={styles.articlesContainer}> */}
                 <ArticlesList
                   className={styles.articlesList}
                   numberOfItems={itemsPerPage}
                   articlesToShow={articles.articles}
+                  additionalClass={styles.articlesContainer}
                 />
+                {/* </div> */}
 
                 {articles.articles.length > 0 && (
                   <div className={styles.paginationContainer}>

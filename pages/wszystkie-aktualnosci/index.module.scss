@@ -57,6 +57,19 @@
 
   label {
     margin-right: 20px;
+    font-size: $tiny-font;
+
+    @include media('>=tablet-portrait', '<=tablet-landscape') {
+      font-size: $med-font;
+    }
+
+    @include media('>=tablet-landscape') {
+      font-size: $big-font;
+    }
+
+    @include media('>=desktop') {
+      font-size: $med-font;
+    }
   }
 
   .inputContainer {

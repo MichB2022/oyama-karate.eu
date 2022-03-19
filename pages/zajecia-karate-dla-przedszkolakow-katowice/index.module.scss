@@ -1,0 +1,142 @@
+@import '../../styles/lib/sass/styles.scss';
+
+.kinderPageContent {
+  font-family: 'Roboto', sans-serif;
+  line-height: 30px;
+
+  @include media('>=desktop') {
+    .container {
+      width: auto;
+    }
+  }
+
+  .kinderPageGridContainer {
+    @include media('>=desktop') {
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 65% 35%;
+      align-items: start;
+    }
+    .kinderContent {
+      grid-column-start: 1;
+
+      @include media('>=desktop') {
+        padding: 0 100px;
+        box-sizing: border-box;
+        justify-content: right;
+        margin: 0 0 0 auto;
+        width: 100%;
+      }
+
+      header {
+        .title {
+          padding: 25px 0;
+          width: 100%;
+          text-align: center;
+          font-size: $big-font;
+          font-weight: 800;
+
+          @include media('>=tablet-portrait') {
+            font-size: $large-font;
+            padding: 40px 0;
+          }
+        }
+      }
+      main {
+        .imagesWrapper {
+          display: block;
+          position: relative;
+          width: 100%;
+          height: 400px;
+
+          @include media('>=mobile') {
+            height: 600px;
+          }
+
+          img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            transition: opacity 0.5s;
+
+            @include media('>=mobile') {
+              height: 600px;
+            }
+          }
+
+          .hidden {
+            opacity: 0;
+          }
+        }
+
+        .text {
+          width: 100%;
+          height: auto;
+          font-size: $med-font;
+          font-weight: 400;
+          padding: 25px 18px;
+          box-sizing: border-box;
+          text-align: left;
+          letter-spacing: 1px;
+          line-height: 25px;
+          text-align: justify;
+
+          @include media('>=tablet-portrait', '<=tablet-landscape') {
+            padding: 40px 25px;
+            font-size: $med-font;
+          }
+
+          @include media('>=tablet-landscape') {
+            font-size: $med-font;
+            padding: 40px 0;
+          }
+
+          @include media('>=desktop') {
+            font-size: $medder-font;
+            padding: 40px 0;
+          }
+        }
+
+        .ad {
+          width: auto;
+          text-align: center;
+          text-decoration: underline;
+          letter-spacing: 1.5px;
+          font-weight: 800;
+          color: $red-color;
+          padding: 0 18px 25px 18px;
+
+          @include media('>=tablet-portrait', '<=tablet-landscape') {
+            padding: 0 25px 40px 25px;
+            line-height: 19.2px;
+            font-size: $med-font;
+          }
+
+          @include media('>=tablet-landscape') {
+            font-size: $medder-font;
+            line-height: 26px;
+            padding: 0 0 25px 0;
+          }
+        }
+      }
+    }
+
+    .articleListContainer {
+      height: 100%;
+
+      background-color: $darker-bg-color;
+
+      @include media('>=desktop') {
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 0;
+        justify-content: flex-start;
+        padding-left: 100px;
+      }
+    }
+  }
+}

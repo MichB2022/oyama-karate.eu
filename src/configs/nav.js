@@ -47,8 +47,8 @@ export const getNavConfig = async () => {
         icon: <AiFillCaretDown />,
         subItems: [
           {
-            title: 'Aktualności',
-            to: '/wszystkie-aktualnosci'
+            title: 'Kalendarz',
+            to: '/kalendarz'
           },
           {
             title: 'Harmonogram zajęć',
@@ -65,8 +65,8 @@ export const getNavConfig = async () => {
         ]
       },
       {
-        title: 'Kalendarz',
-        to: '/kalendarz'
+        title: 'Aktualności',
+        to: '/wszystkie-aktualnosci'
       }
     ]
   };
