@@ -4,8 +4,7 @@ import { VscChromeClose } from 'react-icons/vsc';
 import logo from '../assets/logo.png';
 import axios from 'axios';
 import slugify from 'slugify';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import { API_URL } from './api';
 
 export const getNavConfig = async () => {
   const data = await axios.get(`${API_URL}/infopages`);

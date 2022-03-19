@@ -3,8 +3,7 @@ import styles from './SectionSelector.module.scss';
 import axios from 'axios';
 import SectionsContext from '../../../context/sections/SectionsContext';
 import Loader from '../Loader/Loader';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import { API_URL } from '../../../configs/api';
 
 const SectionSelector = () => {
   const { sectionToDisplay, dispatch } = useContext(SectionsContext);

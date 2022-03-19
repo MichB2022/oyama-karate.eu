@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import ArticleItem from '../ArticleItem/ArticleItem';
 import styles from './articlesList.module.scss';
 import axios from 'axios';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import { API_URL } from '../../../configs/api';
 
 const ArticlesList = ({
   animation,
