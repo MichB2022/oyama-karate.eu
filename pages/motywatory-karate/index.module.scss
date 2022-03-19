@@ -1,0 +1,114 @@
+@import '../../styles/lib/sass/styles.scss';
+
+.galeriesPage {
+  width: 100%;
+  height: auto;
+  font-size: $med-font;
+  font-weight: 400;
+  padding: 25px 18px;
+  box-sizing: border-box;
+  text-align: left;
+  letter-spacing: 1px;
+  line-height: 25px;
+  text-align: justify;
+
+  @include media('>=tablet-portrait', '<=tablet-landscape') {
+    padding: 40px 25px;
+    font-size: $med-font;
+  }
+
+  @include media('>=tablet-landscape') {
+    font-size: $med-font;
+    padding: 40px 0;
+  }
+
+  @include media('>=desktop') {
+    font-size: $medder-font;
+    padding: 40px 0;
+  }
+
+  h1 {
+    padding: 25px 0;
+    width: 100%;
+    text-align: center;
+    font-size: $big-font;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    @include media('>=tablet-portrait') {
+      font-size: $large-font;
+      padding: 40px 0;
+    }
+  }
+
+  h2 {
+    font-size: $medder-font;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+
+    @include media('>=tablet-portrait') {
+      font-size: $big-font;
+    }
+  }
+
+  .container {
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+
+    @include media('>=tablet-portrait') {
+      width: 748px;
+    }
+
+    @include media('>=tablet-landscape') {
+      width: 980px;
+    }
+    @include media('>=desktop') {
+      width: auto;
+    }
+  }
+}
+
+.infoPage {
+  @include media('>=desktop') {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 65% 35%;
+    align-items: start;
+  }
+
+  .mainContent {
+    grid-column-start: 1;
+
+    @include media('>=desktop') {
+      padding-right: 100px;
+      justify-content: right;
+      margin: 0 0 0 auto;
+      width: 80%;
+      padding-bottom: 40px;
+    }
+  }
+
+  .asideContent {
+    height: 100%;
+    background-color: $darker-bg-color;
+
+    .articleListContainer {
+      height: 100%;
+      justify-content: start;
+      @include media('>=desktop') {
+        padding-bottom: 0;
+        align-items: baseline;
+        padding-left: 100px;
+      }
+    }
+  }
+}
+
+.imagesContainer {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  overflow: auto;
+}

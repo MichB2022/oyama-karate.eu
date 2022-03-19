@@ -1,10 +1,7 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
-import slugify from 'slugify';
-import ArticleListContainer from '../../../src/components/shared/ArticleListContainer/ArticleListContainer';
-import Button from '../../../src/components/shared/Button/Button';
-import NotFound from '../../../src/components/shared/NotFound/notFound';
-import { API_UPLOADS_URL, API_URL } from '../../../src/configs/api';
+import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
+import NotFound from '../../src/components/shared/NotFound/notFound';
+import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import styles from './index.module.scss';
 import Gallery from 'react-grid-gallery';
 
@@ -12,14 +9,11 @@ const Galery = ({ galery }) => {
   if (!galery || galery === undefined || galery === {}) {
     <NotFound />;
   }
-
-  const router = useRouter();
-
   const images = galery
-    ? galery.images.map((el) => {
+    ? galery.map((el) => {
         return {
-          src: `${API_UPLOADS_URL}/galeryimages/${el.url}`,
-          thumbnail: `${API_UPLOADS_URL}/galeryimages/${el.url}`,
+          src: `${API_UPLOADS_URL}/motivation/${el.url}`,
+          thumbnail: `${API_UPLOADS_URL}/motivation/${el.url}`,
           thumbnailWidth: 200,
           thumbnailHeight: 153
         };
@@ -33,13 +27,7 @@ const Galery = ({ galery }) => {
           <section className={styles.mainContent}>
             <div className={styles.galeriesPage}>
               <div className={styles.container}>
-                <h1>{galery.name}</h1>
-                <Button
-                  text='Powrót do galerii'
-                  onClick={() => {
-                    router.push('/galerie');
-                  }}
-                />
+                <h1>Twoja dzisiejsza motywacja</h1>
                 <div className={styles.imagesContainer}>
                   <Gallery images={images} enableImageSelection={false} />
                 </div>
@@ -57,27 +45,9 @@ const Galery = ({ galery }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const data = await axios.get(`${API_URL}/galery`);
-  const params = [];
-  data.data.data.forEach((el) => {
-    params.push({
-      params: {
-        id: el.id,
-        slug: slugify(el.name, { lower: true })
-      }
-    });
-  });
-
-  return {
-    paths: params,
-    fallback: true // false or 'blocking'
-  };
-}
-
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  const data = await axios.get(`${API_URL}/galery/${params.id}`);
+  const data = await axios.get(`${API_URL}/motivation`);
 
   return {
     props: { galery: data.data.data || {} },

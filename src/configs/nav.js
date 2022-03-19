@@ -62,6 +62,10 @@ export const getNavConfig = async () => {
           {
             title: 'Galerie',
             to: '/galerie'
+          },
+          {
+            title: 'Motywatory',
+            to: '/motywatory-karate'
           }
         ]
       },
