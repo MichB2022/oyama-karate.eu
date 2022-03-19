@@ -45,25 +45,6 @@ const Instructors = ({ instructors }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const data = await axios.get(`${API_URL}/articles`);
-//   const params = [];
-//   data.data.data.forEach((el) => {
-//     params.push({
-//       params: {
-//         category: el.categoryName.toString().toLowerCase(),
-//         slug: el.slug,
-//         id: el.id
-//       }
-//     });
-//   });
-
-//   return {
-//     paths: params,
-//     fallback: true // false or 'blocking'
-//   };
-// }
-
 // This also gets called at build time
 export async function getStaticProps() {
   const data = await axios.get(`${API_URL}/instructors`);

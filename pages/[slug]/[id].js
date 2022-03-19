@@ -1,6 +1,4 @@
-import { Fragment } from 'react';
-import Collapsible from 'react-collapsible';
-import { BsChevronDown } from 'react-icons/bs';
+import Loader from '../../src/components/shared/Loader/Loader';
 import styles from './index.module.scss';
 import axios from 'axios';
 import slugify from 'slugify';
@@ -8,6 +6,9 @@ import ArticleListContainer from '../../src/components/shared/ArticleListContain
 import { API_URL } from '../../src/configs/api';
 
 const InfoPage = ({ page }) => {
+  if (!page) {
+    return <Loader />;
+  }
   return (
     <article className={styles.infoPage}>
       <section className={styles.mainContent}>

@@ -110,7 +110,7 @@ const YearCalendar = () => {
               ? event.dayStart === i + 1
               : event.dayStart <= i + 1 && i + 1 <= event.dayEnd))
         ) {
-          console.log(month);
+          // console.log(month);
           day = (
             <DayTile
               event={event}
