@@ -7,7 +7,7 @@ import NavLogo from './NavLogo';
 import ScrollBtn from './ScrollBtn';
 
 const Header = () => {
-  const [navConfig, setNavConfig] = useState({ widthToShowItems: 768 });
+  const [navConfig, setNavConfig] = useState({ widthToShowItems: 1024 });
   const [loader, setLoader] = useState(true);
   const [navLinksShown, setNavLinksShown] = useState(false);
   const [isHamburgerDropdownOpen, setIsHamburgerDropdownOpen] = useState(false);

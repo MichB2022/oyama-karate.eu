@@ -29,7 +29,7 @@ export const getNavConfig = async () => {
         </>
       )
     },
-    widthToShowItems: 768,
+    widthToShowItems: 1024,
     hamburgerIcon: <TiThMenuOutline />,
     closeIcon: <VscChromeClose />,
     items: [

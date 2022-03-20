@@ -11,7 +11,7 @@
   }
 
   nav {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: auto;
     height: 60px;
     padding: 0 5%;
@@ -39,7 +39,7 @@
   }
 
   .navLink {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,7 +129,7 @@
       margin-right: 10px;
       display: none;
 
-      @include media('>=mobile', '<=tablet-portrait') {
+      @include media('>=mobile', '<=tablet-landscape') {
         display: block;
       }
     }
