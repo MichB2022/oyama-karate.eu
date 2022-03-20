@@ -84,9 +84,6 @@ const SectionInfo = ({ section }) => {
                       {section.groups.map((group) => (
                         <tr key={group.groupName} className={styles.groupRow}>
                           <td className={styles.group}>{group.groupName}</td>
-                          {console.log(
-                            generateCurrentGroupUsedDays(group).includes(day)
-                          )}
                           {usedDays.map((day) =>
                             generateCurrentGroupUsedDays(group).includes(
                               day
