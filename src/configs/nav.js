@@ -42,6 +42,10 @@ export const getNavConfig = async () => {
         to: '/zajecia-karate-dla-przedszkolakow-katowice'
       },
       {
+        title: 'KickBoxing',
+        to: '/nasze-sekcje-karate-katowice'
+      },
+      {
         title: 'Informacje',
         to: '/',
         icon: <AiFillCaretDown />,

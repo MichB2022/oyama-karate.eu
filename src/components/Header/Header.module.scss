@@ -59,11 +59,12 @@
     }
 
     @include media('>=tablet-landscape') {
-      font-size: $med-font;
+      font-size: $tiny-font;
+      font-weight: 500;
     }
 
     @include media('>=desktop') {
-      font-size: $big-font;
+      font-size: $med-font;
     }
 
     @include media('>=tablet-landscape') {
