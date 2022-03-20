@@ -1,4 +1,3 @@
-import 'react-quill/dist/quill.core.css';
 import Footer from '../src/components/Footer/Footer';
 import Header from '../src/components/Header/Header';
 import ScrollToTop from '../src/components/ScrollToTop';

@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BsFacebook, BsWhatsapp } from 'react-icons/bs';
 import { FiLink } from 'react-icons/fi';
-import 'react-quill/dist/quill.core.css';
 import { FacebookShareButton, WhatsappShareButton } from 'react-share';
 import ArticleListContainer from '../../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Loader from '../../../../src/components/shared/Loader/Loader';
