@@ -4,22 +4,47 @@ import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
 import karateImg from '../../../assets/karate.jpeg';
 import dojo from '../../../assets/treningi-sala.webp';
 import { BsFillTelephoneFill } from 'react-icons/bs';
+import { useState } from 'react';
 
 const SectionInfo = ({ section }) => {
+  const weekDays = [
+    'Poniedziałki',
+    'Wtorki',
+    'Środy',
+    'Czwartki',
+    'Piątki',
+    'Soboty',
+    'Niedziele'
+  ];
+
+  let usedDays = [];
+
+  for (const day of weekDays) {
+    for (const group of section.groups) {
+      for (const schedule of group.schedule) {
+        if (schedule.day === day) {
+          usedDays.push(day);
+        }
+      }
+    }
+  }
+
+  usedDays = [...new Set(usedDays)];
+
   const generateDayNames = () => {
     let days = [];
-    let usedDays = [];
-    section.groups.map((gr) => {
-      gr.schedule.map((el) => {
-        if (!usedDays.find((element) => element === el.day)) {
-          usedDays.push(el.day);
-          days.push(<th key={el.day}>{el.day}</th>);
-        }
-      });
+    usedDays.map((day) => {
+      days.push(<th key={day}>{day}</th>);
     });
-
     return days;
   };
+
+  const generateCurrentGroupUsedDays = (group) => {
+    let result = [];
+    group?.schedule.map((el) => result.push(el.day));
+    return result;
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -60,14 +85,28 @@ const SectionInfo = ({ section }) => {
                       {section.groups.map((group) => (
                         <tr key={group.groupName} className={styles.groupRow}>
                           <td className={styles.group}>{group.groupName}</td>
-                          {group.schedule.map((sched) => (
-                            <td
-                              key={`${sched.hours}-${sched.day}`}
-                              className={styles.hours}
-                            >
-                              {sched.hours}
-                            </td>
-                          ))}
+                          {console.log(
+                            generateCurrentGroupUsedDays(group).includes(day)
+                          )}
+                          {usedDays.map((day) =>
+                            generateCurrentGroupUsedDays(group).includes(
+                              day
+                            ) ? (
+                              <td
+                                key={`${
+                                  group.schedule.find((el) => el.day === day).id
+                                }`}
+                                className={styles.hours}
+                              >
+                                {
+                                  group.schedule.find((el) => el.day === day)
+                                    .hours
+                                }
+                              </td>
+                            ) : (
+                              <td className={styles.hours}>-</td>
+                            )
+                          )}
                         </tr>
                       ))}
                     </tbody>
