@@ -1,6 +1,10 @@
 @import './lib/sass/styles.scss';
 @import './quill.css';
 
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'bootstrap-css-only/css/bootstrap.min.css';
+@import 'mdbreact/dist/css/mdb.css';
+
 html {
   width: 100%;
 }
@@ -178,4 +182,8 @@ a {
       padding: 40px 0;
     }
   }
+}
+
+.spinner-grow {
+  padding: 60px;
 }
