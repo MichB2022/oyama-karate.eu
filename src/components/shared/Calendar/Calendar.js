@@ -1,11 +1,11 @@
+import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { API_URL } from '../../../configs/api';
 import styles from './Calendar.module.scss';
 import CalendarContext from './CalendarContext';
 import CalendarView from './CalendarView';
 import DayTile from './DayTile.js';
 import { countDays } from './helpers.js';
-import axios from 'axios';
-import { API_URL } from '../../../configs/api';
 
 function Calendar() {
   let nrOfFebDays = 28;

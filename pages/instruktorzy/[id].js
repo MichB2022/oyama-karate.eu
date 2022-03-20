@@ -1,11 +1,11 @@
+import axios from 'axios';
 import { Fragment } from 'react';
 import Collapsible from 'react-collapsible';
 import { BsChevronDown } from 'react-icons/bs';
-import styles from './index.module.scss';
-import axios from 'axios';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
-import { API_URL } from '../../src/configs/api';
 import Loader from '../../src/components/shared/Loader/Loader';
+import { API_URL } from '../../src/configs/api';
+import styles from './index.module.scss';
 
 const Instructors = ({ instructors, instructorId }) => {
   if (!instructorId || !instructors) {

@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getNavConfig } from '../../configs/nav';
 import styling from './Header.module.scss';
 import NavItems from './NavItems';
 import NavLogo from './NavLogo';
-import ScrollBtn from './ScrollBtn';
 
 const Header = () => {
   const [navConfig, setNavConfig] = useState({ widthToShowItems: 1024 });

@@ -1,8 +1,8 @@
 // import { Link } from 'react-router-dom';
-import Button from '../Button/Button';
-import instructorPhoto from '../../../assets/instruktor.jpeg';
-import styles from './InstructorCard.module.scss';
 import Link from 'next/link';
+import instructorPhoto from '../../../assets/instruktor.jpeg';
+import Button from '../Button/Button';
+import styles from './InstructorCard.module.scss';
 
 function InstructorCard({ animation, instructor }) {
   const { id, name, description, degree, title } = instructor;

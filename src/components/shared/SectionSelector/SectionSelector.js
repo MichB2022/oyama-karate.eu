@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
-import styles from './SectionSelector.module.scss';
 import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { API_URL } from '../../../configs/api';
 import SectionsContext from '../../../context/sections/SectionsContext';
 import Loader from '../Loader/Loader';
-import { API_URL } from '../../../configs/api';
+import styles from './SectionSelector.module.scss';
 
 const SectionSelector = () => {
   const { sectionToDisplay, dispatch } = useContext(SectionsContext);

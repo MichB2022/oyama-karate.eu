@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import CalendarContext from './CalendarContext';
 import styles from './Calendar.module.scss';
+import CalendarContext from './CalendarContext';
 
 const DayTile = ({
   dataDay,

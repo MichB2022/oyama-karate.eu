@@ -1,9 +1,9 @@
-import ContactForm from '../ContactForm/ContactForm';
-import styles from './SectionInfo.module.scss';
+import { BsFillTelephoneFill } from 'react-icons/bs';
 import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
 import karateImg from '../../../assets/karate.jpeg';
 import dojo from '../../../assets/treningi-sala.webp';
-import { BsFillTelephoneFill } from 'react-icons/bs';
+import ContactForm from '../ContactForm/ContactForm';
+import styles from './SectionInfo.module.scss';
 
 const SectionInfo = ({ section }) => {
   const generateDayNames = () => {

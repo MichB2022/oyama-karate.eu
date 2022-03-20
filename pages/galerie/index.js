@@ -1,9 +1,9 @@
-import slugify from 'slugify';
-import styles from './index.module.scss';
 import axios from 'axios';
+import Link from 'next/link';
+import slugify from 'slugify';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
-import Link from 'next/link';
+import styles from './index.module.scss';
 
 const Galeries = ({ galeries }) => {
   return (

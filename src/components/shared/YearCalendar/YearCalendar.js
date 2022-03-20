@@ -1,12 +1,12 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill
 } from 'react-icons/bs';
+import { API_URL } from '../../../configs/api';
 import DayTile from './DayTile';
 import styles from './YearCalendar.module.scss';
-import axios from 'axios';
-import { API_URL } from '../../../configs/api';
 
 const YearCalendar = () => {
   const weekDaysNames = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Ndz'];

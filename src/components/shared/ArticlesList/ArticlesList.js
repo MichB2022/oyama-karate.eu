@@ -1,8 +1,8 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { API_URL } from '../../../configs/api';
 import ArticleItem from '../ArticleItem/ArticleItem';
 import styles from './articlesList.module.scss';
-import axios from 'axios';
-import { API_URL } from '../../../configs/api';
 
 const ArticlesList = ({
   animation,

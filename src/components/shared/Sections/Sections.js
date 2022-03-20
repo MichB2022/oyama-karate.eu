@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { API_UPLOADS_URL, API_URL } from '../../../configs/api';
 import SectionsContext from '../../../context/sections/SectionsContext';
+import Loader from '../Loader/Loader';
 import SectionInfo from '../SectionInfo/SectionInfo';
 import styles from './Sections.module.scss';
-import axios from 'axios';
-import Loader from '../Loader/Loader';
-import { API_UPLOADS_URL, API_URL } from '../../../configs/api';
 
 const Sections = ({ firtsSectionToDisplay }) => {
   const { sectionToDisplay } = useContext(SectionsContext);

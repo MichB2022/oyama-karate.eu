@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Gallery from 'react-grid-gallery';
 import slugify from 'slugify';
 import ArticleListContainer from '../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Button from '../../../src/components/shared/Button/Button';
 import NotFound from '../../../src/components/shared/NotFound/notFound';
 import { API_UPLOADS_URL, API_URL } from '../../../src/configs/api';
 import styles from './index.module.scss';
-import Gallery from 'react-grid-gallery';
 
 const Galery = ({ galery }) => {
   if (!galery || galery === undefined || galery === {}) {

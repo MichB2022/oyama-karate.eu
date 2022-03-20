@@ -1,12 +1,12 @@
+import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import CalendarContext from './CalendarContext';
-import styles from './EventInfo.module.scss';
 import {
   BsFillArrowLeftSquareFill,
   BsFillArrowRightSquareFill
 } from 'react-icons/bs';
-import axios from 'axios';
 import { API_URL } from '../../../configs/api';
+import CalendarContext from './CalendarContext';
+import styles from './EventInfo.module.scss';
 
 const EventInfo = () => {
   const { event, dispatch, chosenMonth, chosenYear, currentEvents } =

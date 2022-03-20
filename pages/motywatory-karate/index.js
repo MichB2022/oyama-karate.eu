@@ -1,9 +1,9 @@
 import axios from 'axios';
+import Gallery from 'react-grid-gallery';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import NotFound from '../../src/components/shared/NotFound/notFound';
 import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import styles from './index.module.scss';
-import Gallery from 'react-grid-gallery';
 
 const Galery = ({ galery }) => {
   if (!galery || galery === undefined || galery === {}) {

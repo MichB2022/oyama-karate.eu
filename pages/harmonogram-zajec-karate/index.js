@@ -1,12 +1,12 @@
-import styles from './index.module.scss';
+import axios from 'axios';
+import { Fragment, useEffect, useState } from 'react';
 import Collapsible from 'react-collapsible';
 import { BsChevronDown } from 'react-icons/bs';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../../src/configs/api';
+import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
 import Button from '../../src/components/shared/Button/Button';
+import { API_URL } from '../../src/configs/api';
+import styles from './index.module.scss';
 
 const TrainingsSchedule = ({ trainingsSchedule }) => {
   // const [trainingsSchedule, setTrainingsSchedule] = useState([]);

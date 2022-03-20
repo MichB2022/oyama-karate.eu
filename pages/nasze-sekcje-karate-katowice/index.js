@@ -1,12 +1,9 @@
 import axios from 'axios';
-import { useContext } from 'react';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Sections from '../../src/components/shared/Sections/Sections';
 import SectionSelector from '../../src/components/shared/SectionSelector/SectionSelector';
 import { API_URL } from '../../src/configs/api';
-import SectionsContext, {
-  SectionsProvider
-} from '../../src/context/sections/SectionsContext';
+import { SectionsProvider } from '../../src/context/sections/SectionsContext';
 import styles from './index.module.scss';
 
 function SectionsPage({ section }) {

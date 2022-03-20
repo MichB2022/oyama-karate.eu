@@ -92,7 +92,7 @@
 
           @include media('>=tablet-landscape') {
             font-size: $med-font;
-            padding: 40px 0;
+            padding: 40px 16px;
           }
 
           @include media('>=desktop') {

@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import styles from './index.module.scss';
 import axios from 'axios';
-
-import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
+import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import { SectionsProvider } from '../../src/context/sections/SectionsContext';
+import styles from './index.module.scss';
 
 const KinderPage = ({ kinderData }) => {
   const imagesRef = useRef();

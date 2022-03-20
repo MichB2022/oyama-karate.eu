@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Loader from '../../src/components/shared/Loader/Loader';
 import axios from 'axios';
-import { API_URL } from '../../src/configs/api';
-import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
+import React, { useEffect, useState } from 'react';
 import LeftArrow from '../../src/components/Icons/LeftArrow';
 import RightArrow from '../../src/components/Icons/RightArrow';
+import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
+import Loader from '../../src/components/shared/Loader/Loader';
+import { API_URL } from '../../src/configs/api';
 import styles from './index.module.scss';
 
 const itemsPerPage = 12;

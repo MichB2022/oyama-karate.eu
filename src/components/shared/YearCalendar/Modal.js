@@ -1,6 +1,6 @@
-import styles from './Modal.module.scss';
 import { ImCross } from 'react-icons/im';
-import { API_UPLOADS_URL, API_URL } from '../../../configs/api';
+import { API_UPLOADS_URL } from '../../../configs/api';
+import styles from './Modal.module.scss';
 
 const Modal = ({ event, setIsEventModalDisplayed, isEventModalDisplayed }) => {
   const { imgUrl, title, dayStart, dayEnd, month, year, address, description } =

@@ -1,22 +1,22 @@
+import Aos from 'aos';
+import 'aos/dist/aos.css';
+import axios from 'axios';
 import Head from 'next/head';
-import GroupsAd from '../src/components/shared/GroupsAd/GroupsAd';
 // import '../styles/homepage.scss';
 import { useEffect, useState } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 // import { useNavigate } from 'react-router-dom';
 import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
-import ContactForm from '../src/components/shared/ContactForm/ContactForm';
-import InstructorCard from '../src/components/shared/InstructorCard/InstructorCard';
-import ArticlesList from '../src/components/shared/ArticlesList/ArticlesList';
-import Button from '../src/components/shared/Button/Button';
 import karateImg from '../src/assets/karate.jpeg';
 import landingPhoto from '../src/assets/landing.jpg';
+import ArticlesList from '../src/components/shared/ArticlesList/ArticlesList';
+import Button from '../src/components/shared/Button/Button';
+import ContactForm from '../src/components/shared/ContactForm/ContactForm';
+import GroupsAd from '../src/components/shared/GroupsAd/GroupsAd';
+import InstructorCard from '../src/components/shared/InstructorCard/InstructorCard';
+import { API_URL } from '../src/configs/api';
 // import Image from 'next/image'
 import styles from './index.module.scss';
-import Aos from 'aos';
-import 'aos/dist/aos.css';
-import axios from 'axios';
-import { API_URL } from '../src/configs/api';
 
 export default function Home({ instructors }) {
   const [numOfArticleItems, setNumOfArticleItems] = useState(6);

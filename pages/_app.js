@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import 'react-quill/dist/quill.core.css';
 import Footer from '../src/components/Footer/Footer';
 import Header from '../src/components/Header/Header';
-import '../styles/lib/sass/reset.scss';
 import '../styles/globals.scss';
-import 'react-quill/dist/quill.core.css';
+import '../styles/lib/sass/reset.scss';
 
 function MyApp({ Component, pageProps }) {
   return (
