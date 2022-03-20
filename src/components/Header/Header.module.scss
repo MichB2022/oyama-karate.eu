@@ -107,13 +107,18 @@
       font-weight: 500;
       width: 250px;
       flex: 0 0 33%;
+      text-align: center;
 
       @include media('>=tablet-portrait') {
         height: 50px;
       }
 
       @include media('>=tablet-landscape') {
-        font-size: $med-font;
+        font-size: $tiny-font;
+      }
+
+      @include media('>=desktop') {
+        font-size: $small-font;
       }
     }
   }
