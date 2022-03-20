@@ -4,7 +4,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BsFacebook, BsWhatsapp } from 'react-icons/bs';
+import { BsFacebook, BsWhatsapp, BsInstagram } from 'react-icons/bs';
 import { FiLink } from 'react-icons/fi';
 import { FacebookShareButton, WhatsappShareButton } from 'react-share';
 import ArticleListContainer from '../../../../src/components/shared/ArticleListContainer/ArticleListContainer';
@@ -106,13 +106,7 @@ const ArticlePage = ({ firstArticle }) => {
                       >
                         <BsFacebook className={styles.mediaIcon} />
                       </FacebookShareButton>
-                      <div
-                        onClick={copyTextToClipboard(
-                          typeof window !== 'undefined' && window.location.href
-                        )}
-                      >
-                        <FiLink className={styles.mediaIcon} />
-                      </div>
+                      <BsInstagram className={styles.mediaIcon} />
 
                       <WhatsappShareButton
                         url={
@@ -123,6 +117,14 @@ const ArticlePage = ({ firstArticle }) => {
                       >
                         <BsWhatsapp className={styles.mediaIcon} />
                       </WhatsappShareButton>
+                      <div
+                        onClick={copyTextToClipboard(
+                          typeof window !== 'undefined' && window.location.href
+                        )}
+                      >
+                        <FiLink className={styles.mediaIcon} />
+                      </div>
+                      <a href=''></a>
                     </div>
                   </section>
                   <img
