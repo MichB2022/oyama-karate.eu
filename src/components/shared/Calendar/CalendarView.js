@@ -1,4 +1,5 @@
 import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
+import styles from './Calendar.module.scss';
 
 function CalendarView(props) {
   const {
@@ -18,43 +19,43 @@ function CalendarView(props) {
   } = props;
 
   return (
-    <section className='calendar-container'>
-      <header className='top'>
+    <section className={styles.calendarContainer}>
+      <header className={styles.top}>
         <IoMdArrowDropleft
-          className='arrow-left'
+          className={styles.arrowLeft}
           onClick={() => handleArrowClick('LEFT')}
         />
 
-        <p className='month-and-year' onClick={handleDateSwitcherClick}>
+        <p className={styles.monthAndYear} onClick={handleDateSwitcherClick}>
           {`${months[chosenMonth].name} ${chosenYear}`}
         </p>
 
         <IoMdArrowDropright
-          className='arrow-right'
+          className={styles.arrowRight}
           onClick={() => handleArrowClick('RIGHT')}
         />
       </header>
 
-      <main className='calendar-content'>
+      <main className={styles.calendarContent}>
         {isYearSwitcherOpen && (
-          <div className='year-switcher'>
-            <div className='year-list-wrapper'>
-              <ul className='year-list'>{generateYearsListItems()}</ul>
+          <div className={styles.yearSwitcher}>
+            <div className={styles.yearListWrapper}>
+              <ul className={styles.yearList}>{generateYearsListItems()}</ul>
             </div>
           </div>
         )}
 
         {isMonthSwitcherOpen && (
-          <div className='month-switcher'>
-            <div className='month-list-wrapper'>
-              <ul className='month-list'>{generateMonthListItems()}</ul>
+          <div className={styles.monthSwitcher}>
+            <div className={styles.monthListWrapper}>
+              <ul className={styles.monthList}>{generateMonthListItems()}</ul>
             </div>
           </div>
         )}
 
-        <div className='week-days'>{generateWeekDays()}</div>
+        <div className={styles.weekDays}>{generateWeekDays()}</div>
 
-        <div className='month-days'>
+        <div className={styles.monthDays}>
           {generateDayTiles(months[chosenMonth].nrOfDays, startDay)}
         </div>
       </main>

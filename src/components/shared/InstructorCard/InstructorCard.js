@@ -1,10 +1,11 @@
 // import { Link } from 'react-router-dom';
-import Button from '../Button/Button';
+import Link from 'next/link';
 import instructorPhoto from '../../../assets/instruktor.jpeg';
+import Button from '../Button/Button';
 import styles from './InstructorCard.module.scss';
 
 function InstructorCard({ animation, instructor }) {
-  const { id, name, description, degree } = instructor;
+  const { id, name, description, degree, title } = instructor;
   return (
     <div className={styles.card}>
       <img
@@ -15,15 +16,17 @@ function InstructorCard({ animation, instructor }) {
       <div className={styles.vignette}>
         <div className={styles.instructorInfo}>
           <h3>
-            Sensei {name}, {degree}
+            {title} {name}, {degree}
           </h3>
           <p>{description}</p>
         </div>
-        {/* <Link className={styles.instructorLink} to={`/instruktorzy/${id}`}> */}
-        <div className={styles.btnContainer}>
-          <Button text={'Czytaj dalej'} />
-        </div>
-        {/* </Link> */}
+        <Link href={`/instruktorzy/${id}`}>
+          <a className={styles.instructorLink}>
+            <div className={styles.btnContainer}>
+              <Button text={'Czytaj dalej'} />
+            </div>
+          </a>
+        </Link>
       </div>
     </div>
   );

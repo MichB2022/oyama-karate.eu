@@ -1,16 +1,12 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill
 } from 'react-icons/bs';
-// import Modal from './Modal';
-// import events from '../../../configs/events';
-import CalendarContext from '../Calendar/CalendarContext';
+import { API_URL } from '../../../configs/api';
 import DayTile from './DayTile';
-import './YearCalendar.scss';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import styles from './YearCalendar.module.scss';
 
 const YearCalendar = () => {
   const weekDaysNames = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Ndz'];
@@ -38,7 +34,7 @@ const YearCalendar = () => {
   }, []);
 
   useEffect(() => {
-    console.log(events);
+    // console.log(events);
   }, [events]);
 
   let startDay = 6;
@@ -87,8 +83,8 @@ const YearCalendar = () => {
             i + 1 === new Date().getDate() &&
             month === new Date().getMonth() &&
             currentYear === new Date().getFullYear()
-              ? 'day-tile current-day'
-              : 'day-tile'
+              ? `${styles.dayTile} ${styles.currentDay}`
+              : styles.dayTile
           }
         />
       );
@@ -114,13 +110,13 @@ const YearCalendar = () => {
               ? event.dayStart === i + 1
               : event.dayStart <= i + 1 && i + 1 <= event.dayEnd))
         ) {
-          console.log(month);
+          // console.log(month);
           day = (
             <DayTile
               event={event}
               startDay={startDay}
               i={i}
-              className={`day-tile event event-type-${event.category}`}
+              className={`${styles.dayTile} ${styles.event} event-type-${event.category}`}
               // onClick={() => {
               //   setIsEventModalDisplayed(true);
               // }}
@@ -149,10 +145,10 @@ const YearCalendar = () => {
 
     for (let i = 0; i < 12; i++) {
       monthTiles.push(
-        <div className='month-container'>
-          <div className='month-name'>{months[i].name}</div>
-          <div className='week-days-names'>{generateWeekDays()}</div>
-          <div className='day-tiles-container'>
+        <div className={styles.monthContainer}>
+          <div className={styles.monthName}>{months[i].name}</div>
+          <div className={styles.weekDaysNames}>{generateWeekDays()}</div>
+          <div className={styles.dayTilesContainer}>
             {generateDayTiles(months[i].nrOfDays, currentEvents, i)}
           </div>
         </div>
@@ -164,7 +160,7 @@ const YearCalendar = () => {
   const generateWeekDays = () => {
     let weekDays = [];
     for (let i = 0; i < weekDaysNames.length; i++) {
-      weekDays.push(<div className='week-day'>{weekDaysNames[i]}</div>);
+      weekDays.push(<div className={styles.weekDay}>{weekDaysNames[i]}</div>);
     }
     return weekDays;
   };
@@ -172,9 +168,9 @@ const YearCalendar = () => {
   useEffect(() => {}, [currentYear]);
 
   return (
-    <main className='year-calendar-container'>
-      <div className='year-arrows-container'>
-        <div className='arrow-left'>
+    <main className={styles.yearCalendarContainer}>
+      <div className={styles.yearArrowsContainer}>
+        <div className={styles.arrowLeft}>
           <BsFillArrowLeftCircleFill
             onClick={() => {
               setCurrentYear(currentYear - 1);
@@ -186,8 +182,8 @@ const YearCalendar = () => {
             }}
           />
         </div>
-        <div className='year'>{currentYear}</div>
-        <div className='arrow-right'>
+        <div className={styles.year}>{currentYear}</div>
+        <div className={styles.arrowRight}>
           <BsFillArrowRightCircleFill
             onClick={() => {
               setStartYearDay(
@@ -200,7 +196,9 @@ const YearCalendar = () => {
           />
         </div>
       </div>
-      <div className='months-container'>{generateMonthTiles(currentYear)}</div>
+      <div className={styles.monthsContainer}>
+        {generateMonthTiles(currentYear)}
+      </div>
     </main>
   );
 };

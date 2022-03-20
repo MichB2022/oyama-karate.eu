@@ -1,0 +1,279 @@
+@import '../../../../styles/lib/sass/styles.scss';
+
+.calendarContainer {
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .calendarContent {
+    position: relative;
+
+    .yearSwitcher {
+      @include flexCenter(row);
+      width: 100%;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: yellow;
+      background-color: black;
+      scroll-behavior: smooth;
+      z-index: 2;
+
+      .yearListWrapper {
+        height: 75%;
+        overflow: hidden;
+        width: 20%;
+
+        @include media('>=mobile', '<=tablet-landscape') {
+          width: 30%;
+        }
+
+        // @include media('>=tablet-portrait', '<=tablet-landscape') {
+        //   width: 40%;
+        // }
+
+        .yearList {
+          height: 200px;
+          overflow-y: scroll;
+          scrollbar-width: none;
+          width: 90%;
+          margin: 0;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .yearItem {
+            padding-top: 10px;
+            font-size: $big-font;
+            font-weight: 200;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 1px;
+
+            &:hover {
+              color: red;
+              cursor: pointer;
+              transform: scale(1.1);
+              font-weight: 300;
+              transition: all linear 0.3s;
+            }
+
+            @include media('>=mobile', '<=tablet-landscape') {
+              font-size: $large-font;
+              padding-top: 10px;
+            }
+
+            // @include media('>=tablet-portrait', '<=tablet-landscape') {
+            //   font-size: 30px;
+            //   padding-top: 12px;
+            // }
+          }
+        }
+      }
+    }
+
+    .monthSwitcher {
+      @extend .yearSwitcher;
+      padding-top: 3px;
+      box-sizing: border-box;
+
+      .monthListWrapper {
+        @extend .yearListWrapper;
+        width: 60%;
+        height: 100%;
+
+        .monthList {
+          @extend .yearList;
+          height: 100%;
+          width: 100%;
+
+          .monthItem {
+            @extend .yearItem;
+            font-size: $tiny-font;
+            padding-top: 6px;
+
+            @include media('>=mobile', '<=tablet-landscape') {
+              font-size: $med-font;
+              padding-top: 9px;
+            }
+
+            // @include media('>=tablet-portrait', '<=tablet-landscape') {
+            //   font-size: $medder-font;
+            //   padding-top: 10px;
+            // }
+          }
+        }
+      }
+    }
+  }
+
+  .top {
+    @include flexCenter(row);
+    justify-content: space-between;
+    padding: 15px 0;
+    background-color: $red-color;
+    font-size: $med-font;
+    font-weight: 800;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+
+    @include media('>=mobile', '<=tablet-landscape') {
+      padding: 20px 0;
+    }
+
+    // @include media('>=tablet-portrait', '<=tablet-landscape') {
+    //   padding: 25px 0;
+    // }
+
+    .arrowLeft {
+      padding-left: 10px;
+      font-size: $large-font;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      @include media('>=mobile', '<=tablet-landscape') {
+        font-size: 30px;
+      }
+
+      // @include media('>=tablet-portrait', '<=tablet-landscape') {
+      //   font-size: 40px;
+      // }
+    }
+
+    .monthAndYear {
+      @include media('>=mobile', '<=tablet-landscape') {
+        font-size: $big-font;
+      }
+
+      // @include media('>=tablet-portrait', '<=tablet-landscape') {
+      //   font-size: $large-font;
+      // }
+
+      &:hover {
+        color: black;
+        cursor: pointer;
+        transform: scale(1.1);
+        transition: 0.5s linear all;
+      }
+    }
+
+    .arrowRight {
+      padding-right: 10px;
+      font-size: $large-font;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      @include media('>=mobile', '<=tablet-landscape') {
+        font-size: 30px;
+      }
+
+      // @include media('>=tablet-landscape', '<=tablet-landscape') {
+      //   font-size: 40px;
+      // }
+    }
+  }
+  .weekDays {
+    display: grid;
+    grid-template: 100% / repeat(7, 1fr);
+    padding: 15px 0;
+    color: black;
+    background-color: white;
+
+    @include media('>=mobile', '<=tablet-landscape') {
+      padding: 20px 0;
+    }
+
+    // @include media('>=tablet-portrait', '<=tablet-landscape') {
+    //   padding: 25px 0;
+    // }
+
+    .weekDay {
+      @include flexCenter(row);
+      font-size: $small-font;
+      font-weight: 300;
+
+      @include media('>=mobile', '<=tablet-landscape') {
+        font-size: $med-font;
+        font-weight: 400;
+      }
+
+      // @include media('>=tablet-portrait', '<=tablet-landscape') {
+      //   font-size: $medder-font;
+      //   font-weight: 600;
+      // }
+    }
+  }
+
+  .monthDays {
+    display: grid;
+    grid-template: repeat(6, 1fr) / repeat(7, 1fr);
+    color: black;
+    background-color: white;
+    padding-bottom: 5px;
+
+    .dayTile {
+      @include flexCenter(row);
+      font-size: $tiny-font;
+      font-weight: 200;
+      height: 30px;
+
+      @include media('>=mobile', '<=tablet-landscape') {
+        height: 45px;
+        font-size: $med-font;
+        font-weight: 400;
+      }
+
+      // @include media('>=tablet-portrait', '<=tablet-landscape') {
+      //   height: 65px;
+      //   font-size: $big-font;
+      //   font-weight: 600;
+      // }
+    }
+  }
+}
+
+.eventType {
+  background-color: aquamarine !important;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.event {
+  position: absolute;
+  width: 0.9vw;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: aquamarine !important;
+}
+
+.currentDay {
+  background-color: $current-day-color;
+}
+
+.pastEvent {
+  background-color: $past-event !important;
+}
+
+.event-type-zawody {
+  background-color: $tournament-color;
+  color: $events-font-color !important;
+}
+
+.event-type-seminarium {
+  background-color: $seminary-color;
+  color: $events-font-color !important;
+}
+
+.event-type-obóz {
+  background-color: $camp-color;
+  color: $events-font-color !important;
+}

@@ -1,6 +1,6 @@
-import './Modal.scss';
 import { ImCross } from 'react-icons/im';
-import { API_UPLOADS_URL, API_URL } from '../../../configs/api';
+import { API_UPLOADS_URL } from '../../../configs/api';
+import styles from './Modal.module.scss';
 
 const Modal = ({ event, setIsEventModalDisplayed, isEventModalDisplayed }) => {
   const { imgUrl, title, dayStart, dayEnd, month, year, address, description } =
@@ -17,31 +17,31 @@ const Modal = ({ event, setIsEventModalDisplayed, isEventModalDisplayed }) => {
     eventDate < currentDate ? '(wydarzenie się już odbyło)' : '';
 
   return (
-    <div className='modal-bg'>
+    <div className={styles.modalBg}>
       <div
-        className='event-info-container'
+        className={styles.eventInfoContainer}
         style={{
           backgroundImage: `url(${API_UPLOADS_URL}/calendar/${imgUrl})`
         }}
       >
-        <div className='vignette'>
-          <div className='cross-container'>
+        <div className={styles.vignette}>
+          <div className={styles.crossContainer}>
             <ImCross
-              className='cross'
+              className={styles.cross}
               onClick={() => setIsEventModalDisplayed(!isEventModalDisplayed)}
             />
           </div>
           {/* <img src={temporaryImg} alt='current event image' /> */}
-          <h2 className='title'>{title}</h2>
-          <p className='address'>{`${address}`}</p>
-          <p className='date'>{`${
+          <h2 className={styles.title}>{title}</h2>
+          <p className={styles.address}>{`${address}`}</p>
+          <p className={styles.date}>{`${
             dayStart === dayEnd
               ? setDate(dayStart)
               : `${setDate(dayStart)} - ${setDate(dayEnd)}`
           }.${setDate(month)}.${year} ${ifEventWas}`}</p>
-          <h2 className='description-title'>Opis wydarzenia: </h2>
+          <h2 className={styles.descriptionTitle}>Opis wydarzenia: </h2>
           <div
-            className='description ql-editor'
+            className={`${styles.description} ql-editor`}
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>

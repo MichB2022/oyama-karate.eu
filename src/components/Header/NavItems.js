@@ -19,7 +19,9 @@ const NavItems = ({
     const expandDropdown = () => {
       if (!subItems) {
         setIsSubDropdownOpen(false);
-        // setIsDropdownOpen(!isDropdownOpen);
+        if (setIsDropdownOpen) {
+          setIsDropdownOpen(!isDropdownOpen);
+        }
       } else {
         setIsSubDropdownOpen(!isSubDropdownOpen);
       }

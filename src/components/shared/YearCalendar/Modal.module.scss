@@ -1,10 +1,10 @@
-@import '../../../lib/sass/styles.scss';
+@import '../../../../styles/lib/sass/styles.scss';
 
 .hidden {
   transform: scale(0);
 }
 
-.modal-bg {
+.modalBg {
   @include flexCenter(row);
   font-family: 'Roboto', sans-serif;
   line-height: 25px;
@@ -20,7 +20,7 @@
   transform: scale(1);
   transition: 0.5s;
 
-  .event-info-container {
+  .eventInfoContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,9 +40,9 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.8);
 
-      .cross-container {
+      .crossContainer {
         @include flexCenter(row);
-        justify-content: end;
+        justify-content: flex-end;
         width: 100%;
         height: 40px;
         padding: 10px;
@@ -75,7 +75,7 @@
       .address {
         padding: 0 25px 20px 25px;
         width: 100%;
-        text-align: start;
+        text-align: flex-start;
         box-sizing: border-box;
         font-size: $big-font;
         font-weight: 700;
@@ -85,14 +85,14 @@
         @extend .address;
       }
 
-      .description-title {
+      .descriptionTitle {
         @extend .address;
         padding-top: 20px;
       }
 
       .description {
         padding: 0 25px 0 35px;
-        text-align: start;
+        text-align: flex-start;
         box-sizing: border-box;
         font-size: $medder-font;
         font-weight: 400;

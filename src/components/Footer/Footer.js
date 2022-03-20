@@ -35,32 +35,31 @@ function Footer() {
           <h4>MAPA STRONY</h4>
           <div className={styles.pageMapItems}>
             {navConfig.items.map((item) => (
-              <>
-                <Link href={item.to}>
-                  <a>
-                    <p
-                      key={`footer-${item.title.split(' ').join}`}
-                    >{`* ${item.title}`}</p>
-                  </a>
-                </Link>
-              </>
+              <Link
+                key={`footer-${item.title.split(' ').join()}`}
+                href={item.to}
+              >
+                <a>
+                  <p>{`* ${item.title}`}</p>
+                </a>
+              </Link>
             ))}
           </div>
           <div className={styles.pageMapItems}>
-            {navConfig.items.map((item) => (
-              <>
-                {item.subItems &&
-                  item.subItems.map((sItem) => (
-                    <Link href={sItem.to}>
-                      <a>
-                        <p key={`footer-${sItem.title.split(' ').join}`}>
-                          {`* ${sItem.title}`}
-                        </p>
-                      </a>
-                    </Link>
-                  ))}
-              </>
-            ))}
+            {navConfig.items.map(
+              (item) =>
+                item.subItems &&
+                item.subItems.map((sItem) => (
+                  <Link
+                    key={`footer-${sItem.title.split(' ').join()}`}
+                    href={sItem.to}
+                  >
+                    <a>
+                      <p>{`* ${sItem.title}`}</p>
+                    </a>
+                  </Link>
+                ))
+            )}
           </div>
         </div>
       </section>

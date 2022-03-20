@@ -1,14 +1,14 @@
-@import '../../../lib/sass/styles.scss';
+@import '../../../../styles/lib/sass/styles.scss';
 
-.calendar-container {
+.calendarContainer {
   margin: 0 auto;
   width: 100%;
   margin-bottom: 20px;
 
-  .calendar-content {
+  .calendarContent {
     position: relative;
 
-    .year-switcher {
+    .yearSwitcher {
       @include flexCenter(row);
       width: 100%;
       position: absolute;
@@ -20,7 +20,7 @@
       scroll-behavior: smooth;
       z-index: 2;
 
-      .year-list-wrapper {
+      .yearListWrapper {
         height: 75%;
         overflow: hidden;
         width: 20%;
@@ -33,7 +33,7 @@
         //   width: 40%;
         // }
 
-        .year-list {
+        .yearList {
           height: 200px;
           overflow-y: scroll;
           scrollbar-width: none;
@@ -44,7 +44,7 @@
             display: none;
           }
 
-          .year-item {
+          .yearItem {
             padding-top: 10px;
             font-size: $big-font;
             font-weight: 200;
@@ -74,23 +74,23 @@
       }
     }
 
-    .month-switcher {
-      @extend .year-switcher;
+    .monthSwitcher {
+      @extend .yearSwitcher;
       padding-top: 3px;
       box-sizing: border-box;
 
-      .month-list-wrapper {
-        @extend .year-list-wrapper;
+      .monthListWrapper {
+        @extend .yearListWrapper;
         width: 60%;
         height: 100%;
 
-        .month-list {
-          @extend .year-list;
+        .monthList {
+          @extend .yearList;
           height: 100%;
           width: 100%;
 
-          .month-item {
-            @extend .year-item;
+          .monthItem {
+            @extend .yearItem;
             font-size: $tiny-font;
             padding-top: 6px;
 
@@ -128,7 +128,7 @@
     //   padding: 25px 0;
     // }
 
-    .arrow-left {
+    .arrowLeft {
       padding-left: 10px;
       font-size: $large-font;
 
@@ -145,7 +145,7 @@
       // }
     }
 
-    .month-and-year {
+    .monthAndYear {
       @include media('>=mobile', '<=tablet-landscape') {
         font-size: $big-font;
       }
@@ -162,7 +162,7 @@
       }
     }
 
-    .arrow-right {
+    .arrowRight {
       padding-right: 10px;
       font-size: $large-font;
 
@@ -179,7 +179,7 @@
       // }
     }
   }
-  .week-days {
+  .weekDays {
     display: grid;
     grid-template: 100% / repeat(7, 1fr);
     padding: 15px 0;
@@ -194,7 +194,7 @@
     //   padding: 25px 0;
     // }
 
-    .week-day {
+    .weekDay {
       @include flexCenter(row);
       font-size: $small-font;
       font-weight: 300;
@@ -211,14 +211,14 @@
     }
   }
 
-  .month-days {
+  .monthDays {
     display: grid;
     grid-template: repeat(6, 1fr) / repeat(7, 1fr);
     color: black;
     background-color: white;
     padding-bottom: 5px;
 
-    .day-tile {
+    .dayTile {
       @include flexCenter(row);
       font-size: $tiny-font;
       font-weight: 200;
@@ -239,30 +239,25 @@
   }
 }
 
-.event-type {
+.eventType {
   &:hover {
     cursor: pointer;
   }
 }
 
-.event-type-zawody {
-  background-color: red;
-  position: relative;
-
-  .event {
-    position: absolute;
-    width: 0.9vw;
-    height: auto;
-    padding: 10px;
-    box-sizing: border-box;
-  }
+.event {
+  position: absolute;
+  width: 0.9vw;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.current-day {
+.currentDay {
   background-color: $current-day-color;
 }
 
-.past-event {
+.pastEvent {
   background-color: $past-event !important;
 }
 

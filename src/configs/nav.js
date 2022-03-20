@@ -3,8 +3,8 @@ import { TiThMenuOutline } from 'react-icons/ti';
 import { VscChromeClose } from 'react-icons/vsc';
 import logo from '../assets/logo.png';
 import axios from 'axios';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import slugify from 'slugify';
+import { API_URL } from './api';
 
 export const getNavConfig = async () => {
   const data = await axios.get(`${API_URL}/infopages`);
@@ -29,7 +29,7 @@ export const getNavConfig = async () => {
         </>
       )
     },
-    widthToShowItems: 768,
+    widthToShowItems: 1024,
     hamburgerIcon: <TiThMenuOutline />,
     closeIcon: <VscChromeClose />,
     items: [
@@ -42,17 +42,21 @@ export const getNavConfig = async () => {
         to: '/zajecia-karate-dla-przedszkolakow-katowice'
       },
       {
+        title: 'KickBoxing',
+        to: '/nasze-sekcje-karate-katowice'
+      },
+      {
         title: 'Informacje',
         to: '/',
         icon: <AiFillCaretDown />,
         subItems: [
           {
-            title: 'Aktualności',
-            to: '/wszystkie-aktualnosci'
+            title: 'Kalendarz',
+            to: '/kalendarz-oyama-karate'
           },
           {
             title: 'Harmonogram zajęć',
-            to: '/harmonogram-zajec'
+            to: '/harmonogram-zajec-karate'
           },
           {
             title: 'Nasi instruktorzy',
@@ -61,12 +65,16 @@ export const getNavConfig = async () => {
           {
             title: 'Galerie',
             to: '/galerie'
+          },
+          {
+            title: 'Motywatory',
+            to: '/motywatory-karate'
           }
         ]
       },
       {
-        title: 'Kalendarz',
-        to: '/kalendarz'
+        title: 'Aktualności',
+        to: '/wszystkie-aktualnosci'
       }
     ]
   };
@@ -74,7 +82,10 @@ export const getNavConfig = async () => {
   infoPages.map((element) =>
     navConfig.items
       .find((el) => el.title === 'Informacje')
-      .subItems.push({ title: element.title, to: `/info/${element.id}` })
+      .subItems.push({
+        title: element.title,
+        to: `/${slugify(element.title, { lower: true })}/${element.id}`
+      })
   );
 
   return navConfig;

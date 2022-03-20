@@ -1,6 +1,6 @@
 import { useContext } from 'react';
+import styles from './Calendar.module.scss';
 import CalendarContext from './CalendarContext';
-import './DayTile.scss';
 
 const DayTile = ({
   dataDay,
@@ -39,9 +39,9 @@ const DayTile = ({
     }
   }
 
-  let cls = `day-tile ${
+  let cls = `${styles.dayTile} ${
     currentEvent
-      ? `event-type event-type-${currentEvent.categoryName}`
+      ? `${styles.eventType} event-type-${currentEvent.categoryName}`
       : className
   }`;
 
@@ -52,7 +52,7 @@ const DayTile = ({
       )
     : null;
   if (currentEvent) {
-    cls += currentDate > eventDate ? ' past-event' : '';
+    cls += currentDate > eventDate ? ` ${styles.pastEvent}` : '';
   }
 
   return (

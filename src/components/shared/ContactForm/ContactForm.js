@@ -3,7 +3,7 @@ import styles from './ContactForm.module.scss';
 
 const onBtnClick = (e) => {
   e.preventDefault();
-  console.log(e);
+  // console.log(e);
 };
 
 function ContactForm({ animation, btnAnimation }) {

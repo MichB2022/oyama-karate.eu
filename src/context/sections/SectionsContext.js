@@ -1,8 +1,7 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
-import SectionsReducer from './SectionsReducer';
 import axios from 'axios';
-
-const API_URL = 'http://localhost:49153/api/v1';
+import { createContext, useEffect, useReducer, useState } from 'react';
+import { API_URL } from '../../configs/api';
+import SectionsReducer from './SectionsReducer';
 
 const SectionsContext = createContext();
 

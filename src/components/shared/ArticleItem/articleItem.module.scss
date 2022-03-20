@@ -39,6 +39,7 @@
     border: none;
     background: transparent;
     color: white;
+    letter-spacing: 0.5px;
 
     @include media('>=tablet-landscape') {
       &:hover {

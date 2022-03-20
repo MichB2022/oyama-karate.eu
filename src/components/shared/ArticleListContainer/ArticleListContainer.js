@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import ArticlesList from '../ArticlesList/ArticlesList';
@@ -7,6 +8,7 @@ import styles from './ArticleListContainer.module.scss';
 function ArticleListContainer({ currentArticleId }) {
   // const navigate = useNavigate();
   const [numOfItems, setNumOfItems] = useState(4);
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,10 +37,9 @@ function ArticleListContainer({ currentArticleId }) {
         <div className={styles.buttonContainer}>
           <Button
             text='Więcej aktualności'
-            onClick={
-              () => {}
-              // navigate('/wszystkie-aktualnosci', { replace: true })
-            }
+            onClick={() => {
+              router.push('/wszystkie-aktualnosci');
+            }}
           />
         </div>
       </main>
