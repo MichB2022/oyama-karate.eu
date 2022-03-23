@@ -43,7 +43,7 @@ export const getNavConfig = async () => {
       },
       {
         title: 'KickBoxing',
-        to: '/nasze-sekcje-karate-katowice'
+        to: '/kickboxing-katowice'
       },
       {
         title: 'Informacje',
