@@ -30,8 +30,6 @@ export const getNavConfig = async () => {
       )
     },
     widthToShowItems: 1024,
-    hamburgerIcon: <TiThMenuOutline />,
-    closeIcon: <VscChromeClose />,
     items: [
       {
         title: 'Nasze sekcje',
@@ -42,13 +40,13 @@ export const getNavConfig = async () => {
         to: '/zajecia-karate-dla-przedszkolakow-katowice'
       },
       {
-        title: 'KickBoxing',
+        title: 'Kickboxing',
         to: '/kickboxing-katowice'
       },
       {
         title: 'Informacje',
         to: '/',
-        icon: <AiFillCaretDown />,
+        icon: true,
         subItems: [
           {
             title: 'Kalendarz',
@@ -88,5 +86,6 @@ export const getNavConfig = async () => {
       })
   );
 
-  return navConfig;
+  // return JSON.stringify(navConfig);
+  return JSON.parse(JSON.stringify(navConfig));
 };

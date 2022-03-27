@@ -1,24 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getNavConfig } from '../../configs/nav';
+import { TiThMenuOutline } from 'react-icons/ti';
+import { VscChromeClose } from 'react-icons/vsc';
 import styling from './Header.module.scss';
 import NavItems from './NavItems';
 import NavLogo from './NavLogo';
 
-const Header = () => {
-  const [navConfig, setNavConfig] = useState({ widthToShowItems: 1024 });
-  const [loader, setLoader] = useState(true);
+const Header = ({ navConfig }) => {
   const [navLinksShown, setNavLinksShown] = useState(false);
   const [isHamburgerDropdownOpen, setIsHamburgerDropdownOpen] = useState(false);
   const [isScrollButtonVisible, setIsScrollButtonVisible] = useState(false);
   const [offset, setOffset] = useState(0);
-
-  const { styles, logo, items, widthToShowItems, hamburgerIcon, closeIcon } =
-    navConfig;
-
-  useEffect(async () => {
-    setNavConfig(await getNavConfig());
-    setLoader(false);
-  }, []);
 
   useEffect(() => {
     if (isHamburgerDropdownOpen) {
@@ -56,6 +47,13 @@ const Header = () => {
     }
   }, [offset, navLinksShown]);
 
+  if (!navConfig) {
+    return <></>;
+  }
+
+  const { styles, logo, items, widthToShowItems, hamburgerIcon, closeIcon } =
+    navConfig;
+
   const setNavLinksDisplay = (windowWidth) => {
     if (
       (windowWidth > widthToShowItems && navLinksShown) ||
@@ -67,10 +65,6 @@ const Header = () => {
       setIsHamburgerDropdownOpen(false);
     }
   };
-
-  if (loader) {
-    return null;
-  }
 
   const navigationStyles = {
     backgroundColor: styles.bgColor,
@@ -92,8 +86,6 @@ const Header = () => {
           {!navLinksShown &&
             generateHamburgerDropdown(
               items,
-              hamburgerIcon,
-              closeIcon,
               styling.navHamburger,
               isHamburgerDropdownOpen,
               setIsHamburgerDropdownOpen
@@ -113,8 +105,6 @@ const Header = () => {
 
 const generateHamburgerDropdown = (
   items,
-  hamburgerIcon,
-  closeIcon,
   className,
   isHamburgerDropdownOpen,
   setIsHamburgerDropdownOpen
@@ -127,7 +117,7 @@ const generateHamburgerDropdown = (
       >
         <div className={styling.navTitle}>Menu</div>
         <div className={styling.navIcon}>
-          {isHamburgerDropdownOpen ? closeIcon : hamburgerIcon}
+          {isHamburgerDropdownOpen ? <VscChromeClose /> : <TiThMenuOutline />}
         </div>
       </div>
       {isHamburgerDropdownOpen && (

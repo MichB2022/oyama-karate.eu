@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
+import { AiFillCaretDown } from 'react-icons/ai';
 import styles from './Header.module.scss';
 
 const NavItems = ({
@@ -30,7 +31,13 @@ const NavItems = ({
     const linkInsideHTML = (
       <>
         <div className={styles.navTitle}>{title}</div>
-        {icon ? <div className={styles.navIcon}>{icon}</div> : ''}
+        {icon ? (
+          <div className={styles.navIcon}>
+            <AiFillCaretDown />
+          </div>
+        ) : (
+          ''
+        )}
       </>
     );
 

@@ -5,13 +5,15 @@ import '../styles/globals.scss';
 import '../styles/lib/sass/reset.scss';
 
 function MyApp({ Component, pageProps }) {
+  const nav = pageProps.navConfig;
+
   return (
     <>
-      <Header />
+      <Header navConfig={nav} />
       <ScrollToTop>
         <Component {...pageProps} />
       </ScrollToTop>
-      <Footer />
+      <Footer navConfig={nav} />
     </>
   );
 }

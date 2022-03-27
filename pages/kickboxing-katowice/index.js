@@ -2,10 +2,35 @@ import styles from './index.module.scss';
 import kickboxingImg from './kickboxing.jpg';
 import onImg from './img_on.jpg';
 import rekImg from './img_rek.jpg';
+import { getNavConfig } from '../../src/configs/nav';
+import Head from 'next/head';
+import axios from 'axios';
+import { API_URL } from '../../src/configs/api';
 
-const KickBoxingPage = () => {
+const KickBoxingPage = ({ pageDescription }) => {
   return (
     <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <title>
+          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Kickboxing - oyama-karate.eu
+        </title>
+        <meta
+          property='og:title'
+          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Kickboxing - oyama-karate.eu`}
+          key='ogtitle'
+        />
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
+        <meta name='description' content={pageDescription} />
+        <meta
+          property='og:description'
+          content={pageDescription}
+          key='ogdesc'
+        />
+      </Head>
       <section>
         <div className={styles.landingPageShadow}>
           <img
@@ -96,5 +121,17 @@ const KickBoxingPage = () => {
     </>
   );
 };
+
+// This also gets called at build time
+export async function getStaticProps({ params }) {
+  const navConfig = await getNavConfig();
+  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+  const pageDescription = pageDesc.data.data.defaultPageDescription;
+
+  return {
+    props: { navConfig, pageDescription },
+    revalidate: 3600
+  };
+}
 
 export default KickBoxingPage;

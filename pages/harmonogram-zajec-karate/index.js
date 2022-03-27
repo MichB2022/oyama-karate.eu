@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Head from 'next/head';
 import { Fragment, useEffect, useState } from 'react';
 import Collapsible from 'react-collapsible';
 import { BsChevronDown } from 'react-icons/bs';
@@ -6,9 +7,10 @@ import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
 import Button from '../../src/components/shared/Button/Button';
 import { API_URL } from '../../src/configs/api';
+import { getNavConfig } from '../../src/configs/nav';
 import styles from './index.module.scss';
 
-const TrainingsSchedule = ({ trainingsSchedule }) => {
+const TrainingsSchedule = ({ trainingsSchedule, pageDescription }) => {
   // const [trainingsSchedule, setTrainingsSchedule] = useState([]);
 
   const [numOfArticleItems, setNumOfArticleItems] = useState(6);
@@ -104,6 +106,27 @@ const TrainingsSchedule = ({ trainingsSchedule }) => {
 
   return (
     <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <title>
+          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Harmonogram zajęć - oyama-karate.eu
+        </title>
+        <meta
+          property='og:title'
+          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Harmonogram zajęć - oyama-karate.eu`}
+          key='ogtitle'
+        />
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
+        <meta name='description' content={pageDescription} />
+        <meta
+          property='og:description'
+          content={pageDescription}
+          key='ogdesc'
+        />
+      </Head>
       <section className={styles.trainingsSchedule}>
         <section className='container'>
           <header>
@@ -148,9 +171,16 @@ const TrainingsSchedule = ({ trainingsSchedule }) => {
 // This also gets called at build time
 export async function getStaticProps() {
   const data = await axios.get(`${API_URL}/schedule`);
+  const navConfig = await getNavConfig();
+  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+  const pageDescription = pageDesc.data.data.defaultPageDescription;
 
   return {
-    props: { trainingsSchedule: data.data.data.schedules || {} },
+    props: {
+      trainingsSchedule: data.data.data.schedules || {},
+      navConfig,
+      pageDescription
+    },
     revalidate: 3600
   };
 }

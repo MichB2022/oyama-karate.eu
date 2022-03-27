@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Gallery from 'react-grid-gallery';
 import slugify from 'slugify';
@@ -6,9 +7,10 @@ import ArticleListContainer from '../../../src/components/shared/ArticleListCont
 import Button from '../../../src/components/shared/Button/Button';
 import NotFound from '../../../src/components/shared/NotFound/notFound';
 import { API_UPLOADS_URL, API_URL } from '../../../src/configs/api';
+import { getNavConfig } from '../../../src/configs/nav';
 import styles from './index.module.scss';
 
-const Galery = ({ galery }) => {
+const Galery = ({ galery, pageDescription }) => {
   if (!galery || galery === undefined || galery === {}) {
     <NotFound />;
   }
@@ -28,6 +30,27 @@ const Galery = ({ galery }) => {
 
   return (
     <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <title>
+          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Galeria - oyama-karate.eu
+        </title>
+        <meta
+          property='og:title'
+          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Galeria - oyama-karate.eu`}
+          key='ogtitle'
+        />
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
+        <meta name='description' content={pageDescription} />
+        <meta
+          property='og:description'
+          content={pageDescription}
+          key='ogdesc'
+        />
+      </Head>
       {galery && (
         <article className={styles.infoPage}>
           <section className={styles.mainContent}>
@@ -78,9 +101,19 @@ export async function getStaticPaths() {
 // This also gets called at build time
 export async function getStaticProps({ params }) {
   const data = await axios.get(`${API_URL}/galery/${params.id}`);
+  const navConfig = await getNavConfig();
+  let pageDescription = data.data.data.pageDescription;
+
+  if (
+    !data.data.data.pageDescription ||
+    data.data.data.pageDescription === ''
+  ) {
+    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+    pageDescription = pageDesc.data.data.defaultPageDescription;
+  }
 
   return {
-    props: { galery: data.data.data || {} },
+    props: { galery: data.data.data || {}, navConfig, pageDescription },
     revalidate: 3600
   };
 }

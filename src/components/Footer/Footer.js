@@ -1,21 +1,25 @@
+import axios from 'axios';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { API_URL } from '../../configs/api';
 import { footerConfig } from '../../configs/footer';
-import { getNavConfig } from '../../configs/nav';
 import NavLogo from '../Header/NavLogo';
 import styles from './Footer.module.scss';
 
-function Footer() {
-  const [navConfig, setNavConfig] = useState({});
-  const [loader, setLoader] = useState(true);
+function Footer({ navConfig }) {
+  const [contact, setcontact] = useState({
+    phone: '600 - 383 - 727',
+    email: 'michalbodziony@oyama-karate.eu'
+  });
 
   useEffect(async () => {
-    setNavConfig(await getNavConfig());
-    setLoader(false);
+    const contactData = await axios.get(`${API_URL}/homepage/contact`);
+    setcontact(contactData.data.data);
   }, []);
 
-  if (loader) {
-    return null;
+  if (!navConfig) {
+    return <></>;
   }
 
   const { logo } = footerConfig;
@@ -27,8 +31,8 @@ function Footer() {
           <NavLogo logo={logo.src} />
           <div className={styles.footerInfo}>
             <p>Michał Bodziony</p>
-            <p>tel. 600 383 727</p>
-            <p>e-mail: michalbodziony@oyama-karate.eu</p>
+            <p>tel. {contact.phone}</p>
+            <p>e-mail: {contact.email}</p>
           </div>
         </div>
         <div className={styles.pageMap}>
@@ -67,10 +71,11 @@ function Footer() {
       <hr />
 
       <div className={styles.formalInfo}>
-        <p className={styles.creatorAd}>
-          This website was created in collaboration with{' '}
-          <span>Gancle Studio</span>{' '}
-        </p>
+        <a href='https://gancle-studio.pl' rel='noreferrer' target='_blank'>
+          <p className={styles.creatorAd}>
+            This website was created by <span>Gancle Studio</span>{' '}
+          </p>
+        </a>
         <p className={styles.copyright}>
           <small>&copy;</small> Copyright {new Date().getFullYear()},
           oyama-karate.eu. All Rights Reserved.

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from './NavLogo.module.scss';
 
 const NavLogo = ({ logo }) => {
-  const { title, titleHTML, src } = logo;
+  const { src } = logo;
   return (
     <Link href='/'>
       <a className={styles.logo}>

@@ -1,11 +1,23 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
 import karateImg from '../../../assets/karate.jpeg';
 import dojo from '../../../assets/treningi-sala.webp';
+import { API_URL } from '../../../configs/api';
 import ContactForm from '../ContactForm/ContactForm';
 import styles from './SectionInfo.module.scss';
 
 const SectionInfo = ({ section }) => {
+  const [contact, setcontact] = useState({
+    phone: '600 - 383 - 727',
+    email: 'michalbodziony@oyama-karate.eu'
+  });
+  useEffect(async () => {
+    const contactData = await axios.get(`${API_URL}/homepage/contact`);
+    setcontact(contactData.data.data);
+  }, []);
+
   const weekDays = [
     'Poniedziałki',
     'Wtorki',
@@ -146,7 +158,7 @@ const SectionInfo = ({ section }) => {
               <h1 className={styles.contactTitle}>ZAPISY TRWAJĄ</h1>
               <h2 className={styles.phoneNr}>
                 <BsFillTelephoneFill />
-                <div>600 - 383 - 727</div>
+                <div>{contact.phone}</div>
               </h2>
               <ContactForm />
             </div>

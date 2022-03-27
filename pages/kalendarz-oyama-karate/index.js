@@ -5,8 +5,12 @@ import ColorsDescription from '../../src/components/shared/Calendar/ColorsDescri
 import EventInfo from '../../src/components/shared/Calendar/EventInfo';
 import YearCalendar from '../../src/components/shared/YearCalendar/YearCalendar';
 import styles from './index.module.scss';
+import axios from 'axios';
+import { API_URL } from '../../src/configs/api';
+import Head from 'next/head';
+import { getNavConfig } from '../../src/configs/nav';
 
-function CalendarPage() {
+function CalendarPage({ pageData }) {
   const [isCalendarDisplayed, setIsCalendarDisplayed] = useState(false);
   const [isYearCalendarDisplayed, setIsYearCalendarDisplayed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1440);
@@ -36,57 +40,90 @@ function CalendarPage() {
   }, []);
 
   return (
-    <CalendarProvider>
-      <article className={'container'}>
-        <h1 className={styles.calendarTitle}>Kalendarz 2021</h1>
-        <div className={styles.calendarDescription}>
-          KALENDARZ IMPREZ KLUBOWYCH ORAZ OYAMA PFK W II POŁOWIE 2021 ROKU{' '}
-          <br /> (stan na 26.08.2021.) <br /> <br />
-          <span>
-            Zawody Klubowe organizowane przez ŚKK "GOLIAT" zostaną uzupełnione w
-            najbliższym czasie.
-          </span>
-          <p className={styles.eventClickInstruction}>
-            Kliknij w kalendarzu na wydarzenie, aby dowiedzieć się o nim więcej!
-          </p>
-        </div>
+    <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <title>oyama-karate.eu</title>
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
+        <meta property='og:title' content={'oyama-karate.eu'} key='ogtitle' />
+        <meta name='description' content={pageData.pageDescription} />
+        <meta
+          property='og:description'
+          content={pageData.pageDescription}
+          key='ogdesc'
+        />
+      </Head>
 
-        {isCalendarDisplayed && (
-          <>
-            <section className={styles.calendar}>
-              <Calendar />
-            </section>
-            <section className={styles.eventInfo}>
-              <EventInfo />
-            </section>
-          </>
-        )}
+      <CalendarProvider>
+        <article className={'container'}>
+          <h1 className={styles.calendarTitle}>{pageData.title}</h1>
+          <div className={styles.calendarDescription}>
+            <div
+              className='ql-editor'
+              dangerouslySetInnerHTML={{
+                __html: pageData.description
+              }}
+            />
+            <br />
+            <p className={styles.eventClickInstruction}>
+              Kliknij w kalendarzu na wydarzenie, aby dowiedzieć się o nim
+              więcej!
+            </p>
+          </div>
 
-        {isYearCalendarDisplayed && <YearCalendar />}
+          {isCalendarDisplayed && (
+            <>
+              <section className={styles.calendar}>
+                <Calendar />
+              </section>
+              <section className={styles.eventInfo}>
+                <EventInfo />
+              </section>
+            </>
+          )}
 
-        {/* <p className='event-switcher-instuction'>
-          Uzywaj strzałek, aby przeglądać kolejne wydarzenia!
-        </p> */}
+          {isYearCalendarDisplayed && <YearCalendar />}
 
-        <ColorsDescription width={windowWidth} />
+          <ColorsDescription width={windowWidth} />
 
-        <div className={styles.calendarInfo}>
-          <ul className={styles.calendarInfoList}>
-            <li className={styles.calendarInfoListItem}>
-              Organizatorzy ww. imprez zastrzegają sobie prawo do dokonania
-              zmian organizacyjno-programowych, będących następstwem
-              ewentualnych zarządzeń władz centralnych lub lokalnych,
-              wynikających np. z epidemii COVID-19.
-            </li>
-            <li className={styles.calendarInfoListItem}>
-              Kalendarz nie zawiera zawodów organizowanych przez federacje
-              karate współpracujące z OYAMA PFK,
-            </li>
-          </ul>
-        </div>
-      </article>
-    </CalendarProvider>
+          <div className={styles.calendarInfo}>
+            <ul className={styles.calendarInfoList}>
+              <li className={styles.calendarInfoListItem}>
+                <div
+                  className='ql-editor'
+                  dangerouslySetInnerHTML={{
+                    __html: pageData.secondDescription
+                  }}
+                />
+              </li>
+            </ul>
+          </div>
+        </article>
+      </CalendarProvider>
+    </>
   );
+}
+
+// This also gets called at build time
+export async function getStaticProps() {
+  const data = await axios.get(`${API_URL}/calendarpage`);
+  const navConfig = await getNavConfig();
+
+  let pageDescription = data.data.data.pageDescription;
+
+  if (
+    !data.data.data.pageDescription ||
+    data.data.data.pageDescription === ''
+  ) {
+    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+    pageDescription = pageDesc.data.data.defaultPageDescription;
+  }
+
+  return {
+    props: { pageData: data.data.data || {}, navConfig, pageDescription },
+    revalidate: 3600
+  };
 }
 
 export default CalendarPage;

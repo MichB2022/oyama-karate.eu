@@ -43,25 +43,6 @@
 
         line-height: 20px;
       }
-
-      .instructorLink {
-        width: 100%;
-        font-size: $small-font;
-        font-weight: 600;
-        text-decoration: none;
-        color: white;
-        padding-top: 25px;
-        margin: 0 auto;
-        position: absolute;
-        bottom: 0;
-
-        @include media('>=tablet-landscape') {
-          &:hover {
-            color: $red-color;
-            transition: 0.3s;
-          }
-        }
-      }
     }
 
     .btnContainer {
@@ -69,6 +50,25 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
+}
+
+.instructorLink {
+  width: 100%;
+  font-size: $small-font;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  padding-top: 25px;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 25px;
+
+  @include media('>=tablet-landscape') {
+    &:hover {
+      color: $red-color;
+      transition: 0.3s;
     }
   }
 }

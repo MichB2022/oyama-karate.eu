@@ -2,6 +2,7 @@
 //   const { pid } = router.query
 
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BsFacebook, BsWhatsapp, BsInstagram } from 'react-icons/bs';
@@ -10,9 +11,10 @@ import { FacebookShareButton, WhatsappShareButton } from 'react-share';
 import ArticleListContainer from '../../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Loader from '../../../../src/components/shared/Loader/Loader';
 import { API_UPLOADS_URL, API_URL } from '../../../../src/configs/api';
+import { getNavConfig } from '../../../../src/configs/nav';
 import styles from './index.module.scss';
 
-const ArticlePage = ({ firstArticle }) => {
+const ArticlePage = ({ firstArticle, pageDescription }) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -75,6 +77,27 @@ const ArticlePage = ({ firstArticle }) => {
 
   return (
     <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <title>
+          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Aktualności - oyama-karate.eu
+        </title>
+        <meta
+          property='og:title'
+          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - Aktualności - oyama-karate.eu`}
+          key='ogtitle'
+        />
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
+        <meta name='description' content={pageDescription} />
+        <meta
+          property='og:description'
+          content={pageDescription}
+          key='ogdesc'
+        />
+      </Head>
       {loader && <Loader />}
       {article && (
         <section className={styles.articlePage}>
@@ -167,8 +190,21 @@ const ArticlePage = ({ firstArticle }) => {
 // This also gets called at build time
 export async function getStaticProps({ params }) {
   const data = await axios.get(`${API_URL}/articles/${params.id}`);
+  const navConfig = await getNavConfig();
+  let pageDescription = data.data.data.pageDescription;
 
-  return { props: { firstArticle: data.data.data || {} }, revalidate: 3600 };
+  if (
+    !data.data.data.pageDescription ||
+    data.data.data.pageDescription === ''
+  ) {
+    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+    pageDescription = pageDesc.data.data.defaultPageDescription;
+  }
+
+  return {
+    props: { firstArticle: data.data.data || {}, navConfig, pageDescription },
+    revalidate: 3600
+  };
 }
 
 export async function getStaticPaths() {

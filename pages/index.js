@@ -14,11 +14,12 @@ import Button from '../src/components/shared/Button/Button';
 import ContactForm from '../src/components/shared/ContactForm/ContactForm';
 import GroupsAd from '../src/components/shared/GroupsAd/GroupsAd';
 import InstructorCard from '../src/components/shared/InstructorCard/InstructorCard';
-import { API_URL } from '../src/configs/api';
+import { API_UPLOADS_URL, API_URL } from '../src/configs/api';
+import { getNavConfig } from '../src/configs/nav';
 // import Image from 'next/image'
 import styles from './index.module.scss';
 
-export default function Home({ instructors }) {
+export default function Home({ instructors, homepage }) {
   const [numOfArticleItems, setNumOfArticleItems] = useState(6);
   //resize handling useEffect
   useEffect(() => {
@@ -35,18 +36,27 @@ export default function Home({ instructors }) {
     Aos.init({ duration: 1000 });
   }, []);
 
-  const description = undefined;
-
   const pageDescription =
-    description ||
-    'OYAMA KARATE w Katowicach - strona poświęcona sekcjom Sensei Michała Bodzionego w Katowicach i w Gliwicach';
+    homepage.pageDescription === ''
+      ? homepage.defaultPageDescription
+      : homepage.pageDescription;
 
   return (
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>oyama-karate.eu</title>
-        <meta property='og:title' content={'oyama-karate.eu'} key='ogtitle' />
+        <title>
+          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - strona główna - oyama-karate.eu
+        </title>
+        <meta
+          property='og:title'
+          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
+          oraz Gliwice - Oyama-karate.eu - strona główna - oyama-karate.eu`}
+          key='ogtitle'
+        />
+        <meta key='robots' name='robots' content='index,follow' />
+        <meta key='googlebot' name='googlebot' content='index,follow' />
         <meta name='description' content={pageDescription} />
         <meta
           property='og:description'
@@ -58,16 +68,18 @@ export default function Home({ instructors }) {
         <section className={styles.landing}>
           <img
             className={styles.landingImage}
-            src={landingPhoto.src}
-            alt='landing-photo'
+            src={`${API_UPLOADS_URL}/homepage/${homepage.imgUrl}`}
+            alt={homepage.imgAlt}
           />
           <div className={styles.welcomeCardWrapper}>
             <div className={styles.welcomeCard}>
               <div className={styles.container}>
                 <h1>
-                  <span>Strona</span> <span>Sekcji</span>{' '}
-                  <span>Katowice Ligota, </span> <span>Panewniki, </span>{' '}
-                  <span>Podlesie </span> <span>i Gliwice</span>
+                  {homepage.text.split(' ').map((el) => (
+                    <>
+                      <span key={`title-${el}`}>{el}</span>{' '}
+                    </>
+                  ))}
                 </h1>
               </div>
             </div>
@@ -85,7 +97,7 @@ export default function Home({ instructors }) {
           <h1 data-aos='zoom-in'>ZAPISY</h1>
           <h2 className={styles.phone} data-aos='zoom-in'>
             <BsFillTelephoneFill />
-            <div>600 - 383 - 727</div>
+            <div>{homepage.phone}</div>
           </h2>
         </section>
 
@@ -161,6 +173,15 @@ export default function Home({ instructors }) {
 // This also gets called at build time
 export async function getStaticProps() {
   const data = await axios.get(`${API_URL}/instructors`);
+  const hpData = await axios.get(`${API_URL}/homepage`);
+  const navConfig = await getNavConfig();
 
-  return { props: { instructors: data.data.data || {} }, revalidate: 3600 };
+  return {
+    props: {
+      instructors: data.data.data || {},
+      navConfig: navConfig || {},
+      homepage: hpData.data.data
+    },
+    revalidate: 3600
+  };
 }

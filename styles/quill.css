@@ -4,14 +4,14 @@
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
  */
-/* .ql-container {
+.ql-container {
   box-sizing: border-box;
-  font-family: Helvetica, Arial, sans-serif;
+  /* font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
   height: 100%;
-  margin: 0px;
+  margin: 0px; */
   position: relative;
-} */
+}
 .ql-container.ql-disabled .ql-tooltip {
   visibility: hidden;
 }
@@ -29,19 +29,19 @@
   margin: 0;
   padding: 0;
 }
-/* .ql-editor {
+.ql-editor {
   box-sizing: border-box;
-  line-height: 1.42;
-  height: 100%;
+  /* line-height: 1.42;
+  height: 100%; */
   outline: none;
   overflow-y: auto;
-  padding: 12px 15px;
+  /* padding: 12px 15px;
   tab-size: 4;
-  -moz-tab-size: 4;
-  text-align: left;
+  -moz-tab-size: 4; */
+  /* text-align: left; */
   white-space: pre-wrap;
   word-wrap: break-word;
-} */
+}
 .ql-editor > * {
   cursor: text;
 }
