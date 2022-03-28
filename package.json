@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "aos": "^2.3.4",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "bootstrap-css-only": "^4.4.1",
     "html-react-parser": "^1.4.6",
     "include-media": "^1.4.10",
