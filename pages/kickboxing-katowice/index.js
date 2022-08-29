@@ -1,11 +1,10 @@
-import styles from './index.module.scss';
-import kickboxingImg from './kickboxing.jpg';
+import Head from 'next/head';
+import { sanityClient } from '../../sanity';
+import { getNavConfig } from '../../src/configs/nav';
 import onImg from './img_on.jpg';
 import rekImg from './img_rek.jpg';
-import { getNavConfig } from '../../src/configs/nav';
-import Head from 'next/head';
-import axios from 'axios';
-import { API_URL } from '../../src/configs/api';
+import styles from './index.module.scss';
+import kickboxingImg from './kickboxing.jpg';
 
 const KickBoxingPage = ({ pageDescription }) => {
   return (
@@ -125,8 +124,14 @@ const KickBoxingPage = ({ pageDescription }) => {
 // This also gets called at build time
 export async function getStaticProps({ params }) {
   const navConfig = await getNavConfig();
-  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-  const pageDescription = pageDesc.data.data.defaultPageDescription;
+  const homepageData = await sanityClient.fetch(`
+    *[_type == "homepage"][0] {
+      seoDesc,
+      seoKeyWords,
+    }
+  `);
+
+  const pageDescription = homepageData.seoDesc;
 
   return {
     props: { navConfig, pageDescription },

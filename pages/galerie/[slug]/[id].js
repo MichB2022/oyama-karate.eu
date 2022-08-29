@@ -10,11 +10,11 @@ import { getNavConfig } from '../../../src/configs/nav';
 import styles from './index.module.scss';
 
 const Galery = ({ galery }) => {
-  if (!galery || galery === undefined || galery === {}) {
-    <NotFound />;
-  }
-
   const router = useRouter();
+
+  if (!galery || galery === undefined || galery === {}) {
+    return <NotFound />;
+  }
 
   const images = galery
     ? galery.images.map((img) => {
@@ -105,8 +105,6 @@ export async function getStaticProps({ params }) {
     `,
     { slug, id }
   );
-
-  console.log('galery', galery);
 
   return {
     props: { galery: galery || {}, navConfig },

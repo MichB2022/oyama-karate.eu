@@ -9,11 +9,11 @@ import { sanityClient } from '../../../../sanity';
 import ArticleBody from '../../../../src/components/ArticleBody/ArticleBody';
 import ArticleListContainer from '../../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Loader from '../../../../src/components/shared/Loader/Loader';
+import NotFound from '../../../../src/components/shared/NotFound/notFound';
 import { getNavConfig } from '../../../../src/configs/nav';
 import styles from './index.module.scss';
 
 const ArticlePage = ({ firstArticle }) => {
-  console.log(firstArticle);
   const router = useRouter();
   const { id } = router.query;
 
@@ -92,6 +92,10 @@ const ArticlePage = ({ firstArticle }) => {
     tags.map((el) => `#${el} `);
     return result;
   };
+
+  if (!article) {
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -199,14 +203,12 @@ const ArticlePage = ({ firstArticle }) => {
 
 export async function getStaticPaths() {
   const paths = await sanityClient.fetch(`
-  *[_type == "articles"][] {
-    _id,
-    slug,
-    articleCategory -> {name}
-  }
-`);
-
-  console.log(paths);
+    *[_type == "articles"][] {
+      _id,
+      slug,
+      articleCategory -> {name}
+    }
+  `);
 
   return {
     paths: paths.map((path) => ({

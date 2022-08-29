@@ -88,7 +88,6 @@ export async function getStaticProps() {
   `);
 
   const pageDescription = homepageData.seoDesc;
-  console.log('siema');
 
   return {
     props: { section: section || {}, navConfig, pageDescription },

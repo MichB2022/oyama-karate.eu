@@ -41,7 +41,7 @@ function CalendarPage({ pageData }) {
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>oyama-karate.eu</title>
         <meta key='robots' name='robots' content='index,follow' />
@@ -53,9 +53,9 @@ function CalendarPage({ pageData }) {
           content={pageData.pageDescription}
           key='ogdesc'
         />
-      </Head>
+      </Head> */}
 
-      <CalendarProvider>
+      {/* <CalendarProvider>
         <article className={'container'}>
           <h1 className={styles.calendarTitle}>{pageData.title}</h1>
           <div className={styles.calendarDescription}>
@@ -100,28 +100,28 @@ function CalendarPage({ pageData }) {
             </ul>
           </div>
         </article>
-      </CalendarProvider>
+      </CalendarProvider> */}
     </>
   );
 }
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/calendarpage`);
   const navConfig = await getNavConfig();
+  // const data = await axios.get(`${API_URL}/calendarpage`);
 
-  let pageDescription = data.data.data.pageDescription;
+  // let pageDescription = data.data.data.pageDescription;
 
-  if (
-    !data.data.data.pageDescription ||
-    data.data.data.pageDescription === ''
-  ) {
-    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-    pageDescription = pageDesc.data.data.defaultPageDescription;
-  }
+  // if (
+  //   !data.data.data.pageDescription ||
+  //   data.data.data.pageDescription === ''
+  // ) {
+  //   const pageDesc = await axios.get(`${API_URL}/homepage/description`);
+  //   pageDescription = pageDesc.data.data.defaultPageDescription;
+  // }
 
   return {
-    props: { pageData: data.data.data || {}, navConfig, pageDescription },
+    props: { navConfig },
     revalidate: 3600
   };
 }

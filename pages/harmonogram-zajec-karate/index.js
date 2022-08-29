@@ -1,12 +1,11 @@
-import axios from 'axios';
 import Head from 'next/head';
 import { Fragment, useEffect, useState } from 'react';
 import Collapsible from 'react-collapsible';
 import { BsChevronDown } from 'react-icons/bs';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import { sanityClient } from '../../sanity';
 import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
 import Button from '../../src/components/shared/Button/Button';
-import { API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
 import styles from './index.module.scss';
 
@@ -30,79 +29,79 @@ const TrainingsSchedule = ({ trainingsSchedule, pageDescription }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const generateCollapsibleElements = (trainingsSchedule) => {
-    const schedule = [];
-    for (const scheduleGroup of trainingsSchedule) {
-      schedule.push(
-        <Fragment key={`schedule-collapse-${scheduleGroup.id}`}>
-          <Collapsible
-            trigger={[<h3>{scheduleGroup.name}</h3>, <BsChevronDown />]}
-            // open={group && scheduleGroup.name === group} //category
-          >
-            <div className={styles.tableWrapper}>
-              <Table>
-                <Thead>
-                  <Tr>
-                    <Th>
-                      <p>Miejsce</p>
-                    </Th>
-                    <Th>
-                      <p>Adres</p>
-                    </Th>
-                    <Th>
-                      <p>Dzień i Godzina</p>
-                    </Th>
-                    <Th>
-                      <p>Instruktor</p>
-                    </Th>
-                    <Th>
-                      <p>Pomocnicy</p>
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>{generateScheduleTableRows(scheduleGroup)}</Tbody>
-              </Table>
-            </div>
-          </Collapsible>
-        </Fragment>
-      );
-    }
-    return schedule;
-  };
+  // const generateCollapsibleElements = (trainingsSchedule) => {
+  //   const schedule = [];
+  //   for (const scheduleGroup of trainingsSchedule) {
+  //     schedule.push(
+  //       <Fragment key={`schedule-collapse-${scheduleGroup.id}`}>
+  //         <Collapsible
+  //           trigger={[<h3>{scheduleGroup.name}</h3>, <BsChevronDown />]}
+  //           // open={group && scheduleGroup.name === group} //category
+  //         >
+  //           <div className={styles.tableWrapper}>
+  //             <Table>
+  //               <Thead>
+  //                 <Tr>
+  //                   <Th>
+  //                     <p>Miejsce</p>
+  //                   </Th>
+  //                   <Th>
+  //                     <p>Adres</p>
+  //                   </Th>
+  //                   <Th>
+  //                     <p>Dzień i Godzina</p>
+  //                   </Th>
+  //                   <Th>
+  //                     <p>Instruktor</p>
+  //                   </Th>
+  //                   <Th>
+  //                     <p>Pomocnicy</p>
+  //                   </Th>
+  //                 </Tr>
+  //               </Thead>
+  //               <Tbody>{generateScheduleTableRows(scheduleGroup)}</Tbody>
+  //             </Table>
+  //           </div>
+  //         </Collapsible>
+  //       </Fragment>
+  //     );
+  //   }
+  //   return schedule;
+  // };
 
-  const generateScheduleTableRows = (scheduleGroup) => {
-    const rows = [];
-    for (const section of scheduleGroup.rows) {
-      const { id, place, address, schedule, instructor, helpers } = section;
+  // const generateScheduleTableRows = (scheduleGroup) => {
+  //   const rows = [];
+  //   for (const section of scheduleGroup.rows) {
+  //     const { id, place, address, schedule, instructor, helpers } = section;
 
-      rows.push(
-        <Fragment key={`schedule-${id}-${place.replace(/ /g, '')}`}>
-          <Tr>
-            <Td>
-              <p>{place}</p>
-            </Td>
-            <Td>
-              <p>{address}</p>
-            </Td>
-            <Td>
-              <div dangerouslySetInnerHTML={{ __html: schedule }} />
-            </Td>
-            <Td>
-              <div dangerouslySetInnerHTML={{ __html: instructor }} />
-            </Td>
-            <Td>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: helpers === '' ? '-' : helpers
-                }}
-              />
-            </Td>
-          </Tr>
-        </Fragment>
-      );
-    }
-    return rows;
-  };
+  //     rows.push(
+  //       <Fragment key={`schedule-${id}-${place.replace(/ /g, '')}`}>
+  //         <Tr>
+  //           <Td>
+  //             <p>{place}</p>
+  //           </Td>
+  //           <Td>
+  //             <p>{address}</p>
+  //           </Td>
+  //           <Td>
+  //             <div dangerouslySetInnerHTML={{ __html: schedule }} />
+  //           </Td>
+  //           <Td>
+  //             <div dangerouslySetInnerHTML={{ __html: instructor }} />
+  //           </Td>
+  //           <Td>
+  //             <div
+  //               dangerouslySetInnerHTML={{
+  //                 __html: helpers === '' ? '-' : helpers
+  //               }}
+  //             />
+  //           </Td>
+  //         </Tr>
+  //       </Fragment>
+  //     );
+  //   }
+  //   return rows;
+  // };
 
   return (
     <>
@@ -136,7 +135,7 @@ const TrainingsSchedule = ({ trainingsSchedule, pageDescription }) => {
             <div className='container'>
               <h2>Wybierz grupę wiekową, która Cię interesuje: </h2>
               <section className={styles.schedule}>
-                {generateCollapsibleElements(trainingsSchedule)}
+                {/* {generateCollapsibleElements(trainingsSchedule)} */}
               </section>
             </div>
           </main>
@@ -170,14 +169,22 @@ const TrainingsSchedule = ({ trainingsSchedule, pageDescription }) => {
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/schedule`);
   const navConfig = await getNavConfig();
-  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-  const pageDescription = pageDesc.data.data.defaultPageDescription;
+
+  // const data = await axios.get(`${API_URL}/schedule`);
+
+  const homepageData = await sanityClient.fetch(`
+    *[_type == "homepage"][0] {
+      seoDesc,
+      seoKeyWords,
+    }
+  `);
+
+  const pageDescription = homepageData.seoDesc;
 
   return {
     props: {
-      trainingsSchedule: data.data.data.schedules || {},
+      trainingsSchedule: {},
       navConfig,
       pageDescription
     },

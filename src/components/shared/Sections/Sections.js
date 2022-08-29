@@ -11,8 +11,6 @@ const Sections = ({ firtsSectionToDisplay }) => {
   const [section, setSection] = useState(firtsSectionToDisplay);
   const [loader, setLoader] = useState(false);
 
-  console.log(firtsSectionToDisplay);
-
   useEffect(async () => {
     setLoader(true);
     if (sectionToDisplay._id) {

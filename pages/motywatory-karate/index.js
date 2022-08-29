@@ -13,8 +13,6 @@ const Galery = ({ page, pageDescription }) => {
     <NotFound />;
   }
 
-  console.log(page);
-
   const images =
     page && page.images
       ? page.images.map((img) => {
