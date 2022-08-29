@@ -1,9 +1,8 @@
-import axios from 'axios';
+import urlBuilder from '@sanity/image-url';
 import Head from 'next/head';
 import Link from 'next/link';
-import slugify from 'slugify';
+import { sanityClient } from '../../sanity';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
-import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
 import styles from './index.module.scss';
 
@@ -12,16 +11,8 @@ const Galeries = ({ galeries, pageDescription }) => {
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Galerie - oyama-karate.eu
-        </title>
-        <meta
-          property='og:title'
-          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Galerie - oyama-karate.eu`}
-          key='ogtitle'
-        />
+        <title>Galerie</title>
+        <meta property='og:title' content={`Galerie`} key='ogtitle' />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
         <meta name='description' content={pageDescription} />
@@ -39,33 +30,23 @@ const Galeries = ({ galeries, pageDescription }) => {
               <div className={styles.galeriesContainer}>
                 {galeries.map((el) => (
                   <article className={styles.articleItemContainer}>
-                    <Link
-                      href={`/galerie/${slugify(el.name, { lower: true })}/${
-                        el.id
-                      }`}
-                    >
+                    <Link href={`/galerie/${el.slug.current}/${el._id}`}>
                       <a>
                         <img
-                          src={`${API_UPLOADS_URL}/galeryimages/${el.imgUrl}`}
-                          alt='image'
+                          src={urlBuilder(sanityClient)
+                            .image(el.mainImage)
+                            .url()}
+                          alt={el.mainImageAlt}
                           className={styles.articleItemImage}
                         />
                       </a>
                     </Link>
                     <h2 className={styles.articleItemTitle}>
-                      <Link
-                        href={`/galerie/${slugify(el.name, { lower: true })}/${
-                          el.id
-                        }`}
-                      >
+                      <Link href={`/galerie/${el.slug.current}/${el._id}`}>
                         {el.name}
                       </Link>
                     </h2>
-                    <Link
-                      href={`/galerie/${slugify(el.name, { lower: true })}/${
-                        el.id
-                      }`}
-                    >
+                    <Link href={`/galerie/${el.slug.current}/${el._id}`}>
                       <button
                         type='button'
                         className={styles.articleItemButton}
@@ -91,11 +72,30 @@ const Galeries = ({ galeries, pageDescription }) => {
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/galery`);
   const navConfig = await getNavConfig();
 
+  const homepageData = await sanityClient.fetch(`
+  *[_type == "homepage"][0] {
+    seoDesc,
+    seoKeyWords,
+  }
+`);
+
+  const pageDescription = homepageData.seoDesc;
+
+  const galeries = await sanityClient.fetch(`
+  *[_type == "galeries"][] | order(_createdAt desc) {
+    _id,
+    name,
+    slug,
+    mainImage,
+    mainImageAlt,
+    _createdAt
+  }
+`);
+
   return {
-    props: { galeries: data.data.data || {}, navConfig },
+    props: { galeries: galeries || {}, navConfig, pageDescription },
     revalidate: 3600
   };
 }

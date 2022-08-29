@@ -1,11 +1,12 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
+import { sanityClient } from '../../../../sanity';
 import karateImg from '../../../assets/karate.jpeg';
 import dojo from '../../../assets/treningi-sala.webp';
-import { API_URL } from '../../../configs/api';
+import ArticleBody from '../../ArticleBody/ArticleBody';
 import ContactForm from '../ContactForm/ContactForm';
+import { v4 as uuidv4 } from 'uuid';
 import styles from './SectionInfo.module.scss';
 
 const SectionInfo = ({ section }) => {
@@ -14,8 +15,15 @@ const SectionInfo = ({ section }) => {
     email: 'michalbodziony@oyama-karate.eu'
   });
   useEffect(async () => {
-    const contactData = await axios.get(`${API_URL}/homepage/contact`);
-    setcontact(contactData.data.data);
+    const contactData = await sanityClient.fetch(
+      `
+      *[_type == "contactData"][0] {
+        phone,
+        email
+      }
+    `
+    );
+    setcontact(contactData);
   }, []);
 
   const weekDays = [
@@ -30,39 +38,38 @@ const SectionInfo = ({ section }) => {
 
   let usedDays = [];
 
-  for (const day of weekDays) {
-    for (const group of section.groups) {
-      for (const schedule of group.schedule) {
-        if (schedule.day === day) {
-          usedDays.push(day);
-        }
-      }
-    }
-  }
+  // for (const day of weekDays) {
+  //   for (const group of section.groups) {
+  //     for (const schedule of group.schedule) {
+  //       if (schedule.day === day) {
+  //         usedDays.push(day);
+  //       }
+  //     }
+  //   }
+  // }
 
-  usedDays = [...new Set(usedDays)];
+  // usedDays = [...new Set(usedDays)];
 
-  const generateDayNames = () => {
-    let days = [];
-    usedDays.map((day) => {
-      days.push(<th key={day}>{day}</th>);
-    });
-    return days;
-  };
+  // const generateDayNames = () => {
+  //   let days = [];
+  //   usedDays.map((day) => {
+  //     days.push(<th key={day}>{day}</th>);
+  //   });
+  //   return days;
+  // };
 
-  const generateCurrentGroupUsedDays = (group) => {
-    let result = [];
-    group?.schedule.map((el) => result.push(el.day));
-    return result;
-  };
+  // const generateCurrentGroupUsedDays = (group) => {
+  //   let result = [];
+  //   group?.schedule.map((el) => result.push(el.day));
+  //   return result;
+  // };
 
   return (
     <>
       <div className={styles.container}>
-        <div
-          className={`${styles.groupDescription} ql-editor`}
-          dangerouslySetInnerHTML={{ __html: section.description }}
-        ></div>
+        <div className={styles.groupDescription}>
+          <ArticleBody body={section.description} />
+        </div>
       </div>
 
       <div className={styles.container}>
@@ -89,32 +96,20 @@ const SectionInfo = ({ section }) => {
                     <thead>
                       <tr className={styles.daysRow}>
                         <th></th>
-                        {generateDayNames()}
+                        {section.days.map((day) => (
+                          <th key={uuidv4()}>{day}</th>
+                        ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {section.groups.map((group) => (
-                        <tr key={group.groupName} className={styles.groupRow}>
-                          <td className={styles.group}>{group.groupName}</td>
-                          {usedDays.map((day) =>
-                            generateCurrentGroupUsedDays(group).includes(
-                              day
-                            ) ? (
-                              <td
-                                key={`${
-                                  group.schedule.find((el) => el.day === day).id
-                                }`}
-                                className={styles.hours}
-                              >
-                                {
-                                  group.schedule.find((el) => el.day === day)
-                                    .hours
-                                }
-                              </td>
-                            ) : (
-                              <td className={styles.hours}>-</td>
-                            )
-                          )}
+                      {section.scheduleRows.map((row) => (
+                        <tr key={uuidv4()}>
+                          <td className={styles.group}>{row.groupName}</td>
+                          {row.hours.split(';').map((hour) => (
+                            <td className={styles.hours} key={uuidv4()}>
+                              {hour}
+                            </td>
+                          ))}
                         </tr>
                       ))}
                     </tbody>

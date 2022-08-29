@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
+import { sanityClient } from '../../sanity';
 import LeftArrow from '../../src/components/Icons/LeftArrow';
 import RightArrow from '../../src/components/Icons/RightArrow';
 import ArticlesList from '../../src/components/shared/ArticlesList/ArticlesList';
@@ -9,36 +10,39 @@ import { API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
 import styles from './index.module.scss';
 
-const itemsPerPage = 12;
+const itemsPerPage = 3;
 
-const NewsPage = ({
-  firstArticlesSet,
-  firstPagination,
-  categories,
-  pageDescription
-}) => {
-  const [loader, setLouder] = useState(false);
+const NewsPage = ({ allArticles, categories, pageDescription }) => {
   const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState(firstPagination);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    numberOfPages: Math.ceil(allArticles / itemsPerPage)
+  });
   const [filteredByCategory, setFilteredByCategory] = useState('all');
-  const [articles, setArtciles] = useState(firstArticlesSet);
-
-  const articleRequest = async (isFilteredByCategory) => {
-    const articlesResult = await axios.get(
-      `${API_URL}/articles?page=${page}&perpage=${itemsPerPage}${
-        isFilteredByCategory ? `&filterByCategory=${filteredByCategory}` : ''
-      }
-      `
-    );
-
-    setArtciles({ articles: articlesResult.data.data });
-    setPagination(articlesResult.data.pagination);
-  };
+  const [articles, setArtciles] = useState(allArticles);
+  const [shownArticles, setShownArticles] = useState(
+    allArticles.slice(itemsPerPage)
+  );
 
   useEffect(async () => {
-    setLouder(true);
-    await articleRequest(filteredByCategory !== 'all');
-    setLouder(false);
+    const articlesToShow =
+      filteredByCategory !== 'all'
+        ? allArticles.filter(
+            (el) => el.articleCategory.name === filteredByCategory
+          )
+        : allArticles;
+
+    setPagination({
+      currentPage: page,
+      numberOfPages: Math.ceil(articlesToShow.length / itemsPerPage)
+    });
+
+    const slicedArticles = Array.from(
+      articlesToShow.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+    );
+
+    setArtciles(articlesToShow);
+    setShownArticles(slicedArticles);
   }, [page, filteredByCategory]);
 
   const changePage = (direction) => {
@@ -46,7 +50,7 @@ const NewsPage = ({
       setPage(page - 1);
     } else if (
       direction === 'RIGHT' &&
-      pagination.currentPage < pagination.pagesCount
+      pagination.currentPage < pagination.numberOfPages
     ) {
       setPage(page + 1);
     }
@@ -55,7 +59,7 @@ const NewsPage = ({
   const getPagination = () => {
     const paginationElements = [];
 
-    for (let i = 1; i < pagination.pagesCount + 1; i++) {
+    for (let i = 1; i < Math.ceil(articles.length / itemsPerPage) + 1; i++) {
       paginationElements.push(
         <div
           key={`pagination-tile-${i}`}
@@ -122,35 +126,30 @@ const NewsPage = ({
                 </select>
               </div>
             </form>
-            {loader && <Loader />}
-            {!loader && (
-              <section>
-                {/* <div className={styles.articlesContainer}> */}
-                <ArticlesList
-                  className={styles.articlesList}
-                  numberOfItems={itemsPerPage}
-                  articlesToShow={articles.articles}
-                  additionalClass={styles.articlesContainer}
-                />
-                {/* </div> */}
+            <section>
+              <ArticlesList
+                className={styles.articlesList}
+                numberOfItems={itemsPerPage}
+                articlesToShow={shownArticles}
+                additionalClass={styles.articlesContainer}
+              />
 
-                {articles.articles.length > 0 && (
-                  <div className={styles.paginationContainer}>
-                    <div className={styles.paginationContent}>
-                      <LeftArrow
-                        className={styles.paginationArrow}
-                        onClick={() => changePage('LEFT')}
-                      />
-                      <div className={styles.pagination}>{getPagination()}</div>
-                      <RightArrow
-                        className={styles.paginationArrow}
-                        onClick={() => changePage('RIGHT')}
-                      />
-                    </div>
+              {articles.length > 0 && articles.length / itemsPerPage > 1 && (
+                <div className={styles.paginationContainer}>
+                  <div className={styles.paginationContent}>
+                    <LeftArrow
+                      className={styles.paginationArrow}
+                      onClick={() => changePage('LEFT')}
+                    />
+                    <div className={styles.pagination}>{getPagination()}</div>
+                    <RightArrow
+                      className={styles.paginationArrow}
+                      onClick={() => changePage('RIGHT')}
+                    />
                   </div>
-                )}
-              </section>
-            )}
+                </div>
+              )}
+            </section>
           </div>
         </section>
       </div>
@@ -160,19 +159,44 @@ const NewsPage = ({
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const categories = await axios.get(`${API_URL}/categories`);
-  const articlesResult = await axios.get(
-    `${API_URL}/articles?page=1&perpage=${itemsPerPage}`
-  );
   const navConfig = await getNavConfig();
-  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-  const pageDescription = pageDesc.data.data.defaultPageDescription;
+
+  const categories = await sanityClient.fetch(`
+    *[_type == "articleCategories"][] {
+      name
+    }
+  `);
+
+  const articlesResult = await sanityClient.fetch(
+    `
+    *[
+      _type == "articles" && date < now()
+    ] | order(date desc)[] {
+      _id,
+      articleCategory->{name},
+      date,
+      mainImage,
+      mainImageAlt,
+      slug,
+      shortenDesc,
+      title,
+    }
+  `
+  );
+
+  const homepageData = await sanityClient.fetch(`
+    *[_type == "homepage"][0] {
+      seoDesc,
+      seoKeyWords,
+    }
+  `);
+
+  const pageDescription = homepageData.seoDesc;
 
   return {
     props: {
-      firstArticlesSet: { articles: articlesResult.data.data },
-      firstPagination: articlesResult.data.pagination,
-      categories: categories.data.data || {},
+      allArticles: articlesResult,
+      categories: categories || {},
       navConfig,
       pageDescription
     },

@@ -2,6 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { sanityClient } from '../../../sanity';
 import { API_URL } from '../../configs/api';
 import { footerConfig } from '../../configs/footer';
 import NavLogo from '../Header/NavLogo';
@@ -14,8 +15,15 @@ function Footer({ navConfig }) {
   });
 
   useEffect(async () => {
-    const contactData = await axios.get(`${API_URL}/homepage/contact`);
-    setcontact(contactData.data.data);
+    const contactData = await sanityClient.fetch(
+      `
+      *[_type == "contactData"][0] {
+        phone,
+        email
+      }
+    `
+    );
+    setcontact(contactData);
   }, []);
 
   if (!navConfig) {
@@ -44,7 +52,7 @@ function Footer({ navConfig }) {
                 href={item.to}
               >
                 <a>
-                  <p>{`* ${item.title}`}</p>
+                  <p>{item.title}</p>
                 </a>
               </Link>
             ))}
@@ -59,7 +67,7 @@ function Footer({ navConfig }) {
                     href={sItem.to}
                   >
                     <a>
-                      <p>{`* ${sItem.title}`}</p>
+                      <p>{sItem.title}</p>
                     </a>
                   </Link>
                 ))

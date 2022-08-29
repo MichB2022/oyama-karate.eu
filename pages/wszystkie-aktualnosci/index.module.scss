@@ -3,6 +3,7 @@
 .newsPageContent {
   font-family: 'Roboto', sans-serif;
   line-height: 30px;
+  min-height: calc(100vh - 300px);
 
   h1 {
     font-size: $big-font;

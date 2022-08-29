@@ -40,6 +40,11 @@
       p {
         font-size: $tiny-font;
         text-align: center;
+        padding: 0 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
 
         line-height: 20px;
       }

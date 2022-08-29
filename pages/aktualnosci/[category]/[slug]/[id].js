@@ -1,20 +1,19 @@
-// const router = useRouter()
-//   const { pid } = router.query
-
-import axios from 'axios';
+import urlBuilder from '@sanity/image-url';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BsFacebook, BsWhatsapp, BsInstagram } from 'react-icons/bs';
+import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 import { FiLink } from 'react-icons/fi';
 import { FacebookShareButton, WhatsappShareButton } from 'react-share';
+import { sanityClient } from '../../../../sanity';
+import ArticleBody from '../../../../src/components/ArticleBody/ArticleBody';
 import ArticleListContainer from '../../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Loader from '../../../../src/components/shared/Loader/Loader';
-import { API_UPLOADS_URL, API_URL } from '../../../../src/configs/api';
 import { getNavConfig } from '../../../../src/configs/nav';
 import styles from './index.module.scss';
 
-const ArticlePage = ({ firstArticle, pageDescription }) => {
+const ArticlePage = ({ firstArticle }) => {
+  console.log(firstArticle);
   const router = useRouter();
   const { id } = router.query;
 
@@ -64,8 +63,27 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
 
   useEffect(async () => {
     setLoader(true);
-    const data = await axios.get(`${API_URL}/articles/${id}`);
-    setArtcile(data.data.data);
+    const data = await sanityClient.fetch(
+      `
+      *[
+        _type == "articles" && _id == $id
+      ][0] {
+        _id,
+        articleCategory->{name},
+        seoDesc,
+        seoKeyWords,
+        tags,
+        date,
+        mainImage,
+        mainImageAlt,
+        slug,
+        content,
+        title,
+      }
+    `,
+      { id }
+    );
+    setArtcile(data);
     setLoader(false);
   }, [id]);
 
@@ -79,22 +97,14 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Aktualności - oyama-karate.eu
-        </title>
-        <meta
-          property='og:title'
-          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Aktualności - oyama-karate.eu`}
-          key='ogtitle'
-        />
+        <title>{article.title}</title>
+        <meta property='og:title' content={article.title} key='ogtitle' />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
-        <meta name='description' content={pageDescription} />
+        <meta name='description' content={article.seoDest} />
         <meta
           property='og:description'
-          content={pageDescription}
+          content={article.seoDesc}
           key='ogdesc'
         />
       </Head>
@@ -109,14 +119,14 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
                   <section className={styles.dateAndShareContainer}>
                     <p className={styles.articleDate}>
                       <span className={styles.paddingRight}>
-                        Kategoria: {article.categoryName}
+                        Kategoria: {article.articleCategory.name}
                       </span>
                       |
                       <span className={styles.paddingLeft}>
                         Dodano:{' '}
-                        {new Date(
-                          article.createdAt.slice(0, 10)
-                        ).toLocaleDateString('pl')}
+                        {new Date(article.date.slice(0, 10)).toLocaleDateString(
+                          'pl'
+                        )}
                       </span>
                     </p>
                     <div className={styles.shareContainer}>
@@ -150,10 +160,13 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
                       <a href=''></a>
                     </div>
                   </section>
+
                   <img
-                    src={`${API_UPLOADS_URL}/articles/${article.bigImgUrl}`}
-                    alt={article.bigImgAlt}
                     className={styles.articleImage}
+                    src={urlBuilder(sanityClient)
+                      .image(article.mainImage)
+                      .url()}
+                    alt={article.imgAlt}
                   />
                 </header>
                 <main>
@@ -168,10 +181,7 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
                   </div>
                   <div className={styles.articleCategory}></div>
                   <div className={styles.articleText}>
-                    <div
-                      className='ql-editor'
-                      dangerouslySetInnerHTML={{ __html: article.text }}
-                    />
+                    <ArticleBody body={article.content} />
                   </div>
                 </main>
               </article>
@@ -187,42 +197,59 @@ const ArticlePage = ({ firstArticle, pageDescription }) => {
   );
 };
 
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  const data = await axios.get(`${API_URL}/articles/${params.id}`);
-  const navConfig = await getNavConfig();
-  let pageDescription = data.data.data.pageDescription;
-
-  if (
-    !data.data.data.pageDescription ||
-    data.data.data.pageDescription === ''
-  ) {
-    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-    pageDescription = pageDesc.data.data.defaultPageDescription;
+export async function getStaticPaths() {
+  const paths = await sanityClient.fetch(`
+  *[_type == "articles"][] {
+    _id,
+    slug,
+    articleCategory -> {name}
   }
+`);
+
+  console.log(paths);
 
   return {
-    props: { firstArticle: data.data.data || {}, navConfig, pageDescription },
-    revalidate: 3600
+    paths: paths.map((path) => ({
+      params: {
+        id: path._id,
+        slug: path.slug.current,
+        category: path.articleCategory.name.toString().toLowerCase()
+      }
+    })),
+    fallback: true
   };
 }
 
-export async function getStaticPaths() {
-  const data = await axios.get(`${API_URL}/articles`);
-  const params = [];
-  data.data.data.forEach((el) => {
-    params.push({
-      params: {
-        category: el.categoryName.toString().toLowerCase(),
-        slug: el.slug,
-        id: el.id
-      }
-    });
-  });
+// This also gets called at build time
+export async function getStaticProps({ params }) {
+  const { slug = '', id = '', category = '' } = params;
+
+  const navConfig = await getNavConfig();
+
+  const data = await sanityClient.fetch(
+    `
+    *[
+      _type == "articles" && _id == $id
+    ][0] {
+      _id,
+      articleCategory->{name},
+      seoDesc,
+      seoKeyWords,
+      tags,
+      date,
+      mainImage,
+      mainImageAlt,
+      slug,
+      content,
+      title,
+    }
+  `,
+    { id }
+  );
 
   return {
-    paths: params,
-    fallback: true // false or 'blocking'
+    props: { firstArticle: data || {}, navConfig },
+    revalidate: 3600
   };
 }
 

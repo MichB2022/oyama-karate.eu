@@ -1,25 +1,21 @@
-import axios from 'axios';
 import Head from 'next/head';
-import slugify from 'slugify';
+import { sanityClient } from '../../sanity';
+import ArticleBody from '../../src/components/ArticleBody/ArticleBody';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Loader from '../../src/components/shared/Loader/Loader';
-import { API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
 import styles from './index.module.scss';
 
-const InfoPage = ({ page, pageDescription }) => {
+const InfoPage = ({ page }) => {
   if (!page) {
     return <Loader />;
   }
+
   return (
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Informacje - {page.title} -
-          oyama-karate.eu
-        </title>
+        <title>{page.title}</title>
         <meta
           property='og:title'
           content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
@@ -28,12 +24,8 @@ const InfoPage = ({ page, pageDescription }) => {
         />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
-        <meta name='description' content={pageDescription} />
-        <meta
-          property='og:description'
-          content={pageDescription}
-          key='ogdesc'
-        />
+        <meta name='description' content={page.seoDesc} />
+        <meta property='og:description' content={page.seoDesc} key='ogdesc' />
       </Head>
 
       <article className={styles.infoPage}>
@@ -41,10 +33,9 @@ const InfoPage = ({ page, pageDescription }) => {
           <div className={styles.infoGeneral}>
             <div className={styles.container}>
               <h1>{page.title}</h1>
-              <div
-                className={`${styles.text} ql-editor`}
-                dangerouslySetInnerHTML={{ __html: page.content }}
-              />
+              <div className={styles.text}>
+                <ArticleBody body={page.content} />
+              </div>
             </div>
           </div>
         </section>
@@ -59,43 +50,47 @@ const InfoPage = ({ page, pageDescription }) => {
 };
 
 export async function getStaticPaths() {
-  const data = await axios.get(`${API_URL}/infopages`);
-  const params = [];
-  data.data.data.forEach((el) => {
-    params.push({
-      params: {
-        slug: slugify(el.title, { lower: true }),
-        id: el.id
-      }
-    });
-  });
+  const paths = await sanityClient.fetch(`
+    *[_type == "infoPages"][] {
+      _id,
+      slug
+    }
+  `);
 
   return {
-    paths: params,
-    fallback: true // false or 'blocking'
+    paths: paths.map((el) => ({
+      params: {
+        slug: el.slug.current,
+        id: el._id
+      }
+    })),
+    fallback: true
   };
 }
 
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  const data = await axios.get(`${API_URL}/infopages/${params.id}`);
-  const navConfig = await getNavConfig();
-  let pageDescription = data.data.data.pageDescription;
+  const { slug = '', id = '' } = params;
 
-  if (
-    !data.data.data.pageDescription ||
-    data.data.data.pageDescription === ''
-  ) {
-    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-    pageDescription = pageDesc.data.data.defaultPageDescription;
-  }
+  const navConfig = await getNavConfig();
+
+  const infoPage = await sanityClient.fetch(
+    `
+    *[_type == "infoPages" && slug.current == $slug && _id == $id][0] {
+      _id,
+      title,
+      seoDesc,
+      seoKeyWords,
+      content
+    }
+  `,
+    { slug, id }
+  );
 
   return {
     props: {
-      page: data.data.data || {},
-      instructorId: params.id,
-      navConfig,
-      pageDescription
+      page: infoPage || {},
+      navConfig
     },
     revalidate: 3600
   };

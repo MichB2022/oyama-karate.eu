@@ -5,10 +5,19 @@ import logo from '../assets/logo.png';
 import axios from 'axios';
 import slugify from 'slugify';
 import { API_URL } from './api';
+import { sanityClient } from '../../sanity';
 
 export const getNavConfig = async () => {
-  const data = await axios.get(`${API_URL}/infopages`);
-  const infoPages = data.data.data;
+  const infoPages = await sanityClient.fetch(`
+  *[_type == "infoPages"][] {
+    _id,
+    title,
+    slug,
+    seoDesc,
+    seoKeyWords,
+    content
+  }
+`);
 
   const navConfig = {
     styles: {
@@ -82,10 +91,9 @@ export const getNavConfig = async () => {
       .find((el) => el.title === 'Informacje')
       .subItems.push({
         title: element.title,
-        to: `/${slugify(element.title, { lower: true })}/${element.id}`
+        to: `/${element.slug.current}/${element._id}`
       })
   );
 
-  // return JSON.stringify(navConfig);
   return JSON.parse(JSON.stringify(navConfig));
 };

@@ -1,9 +1,8 @@
-import axios from 'axios';
 import Head from 'next/head';
+import { sanityClient } from '../../sanity';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Sections from '../../src/components/shared/Sections/Sections';
 import SectionSelector from '../../src/components/shared/SectionSelector/SectionSelector';
-import { API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
 import { SectionsProvider } from '../../src/context/sections/SectionsContext';
 import styles from './index.module.scss';
@@ -13,16 +12,8 @@ function SectionsPage({ section, pageDescription }) {
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Nasze sekcje - oyama-karate.eu
-        </title>
-        <meta
-          property='og:title'
-          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Nasze sekcje - oyama-karate.eu`}
-          key='ogtitle'
-        />
+        <title>Nasze sekcje</title>
+        <meta property='og:title' content={`Nasze sekcje`} key='ogtitle' />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
         <meta name='description' content={pageDescription} />
@@ -60,16 +51,47 @@ function SectionsPage({ section, pageDescription }) {
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/sections/labels`);
-  const section = await axios.get(
-    `${API_URL}/sections/${data.data.data[0].id}`
-  );
   const navConfig = await getNavConfig();
-  const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-  const pageDescription = pageDesc.data.data.defaultPageDescription;
+
+  const labels = await sanityClient.fetch(`
+    *[_type == "sections"][] {
+      _id,
+      label
+    }
+  `);
+
+  const id = labels[0]._id;
+
+  const section = await sanityClient.fetch(
+    `
+    *[_type == "sections" && _id == $id][0] {
+      _id,
+      name,
+      label,
+      mainImage,
+      mainImageAlt,
+      description,
+      address,
+      googleMapsLink,
+      days,
+      scheduleRows
+    }
+  `,
+    { id }
+  );
+
+  const homepageData = await sanityClient.fetch(`
+    *[_type == "homepage"][0] {
+      seoDesc,
+      seoKeyWords
+    }
+  `);
+
+  const pageDescription = homepageData.seoDesc;
+  console.log('siema');
 
   return {
-    props: { section: section.data.data || {}, navConfig, pageDescription },
+    props: { section: section || {}, navConfig, pageDescription },
     revalidate: 3600
   };
 }

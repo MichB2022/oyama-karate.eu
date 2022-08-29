@@ -1,16 +1,15 @@
-import axios from 'axios';
+import urlBuilder from '@sanity/image-url';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Gallery from 'react-grid-gallery';
-import slugify from 'slugify';
+import { sanityClient } from '../../../sanity';
 import ArticleListContainer from '../../../src/components/shared/ArticleListContainer/ArticleListContainer';
 import Button from '../../../src/components/shared/Button/Button';
 import NotFound from '../../../src/components/shared/NotFound/notFound';
-import { API_UPLOADS_URL, API_URL } from '../../../src/configs/api';
 import { getNavConfig } from '../../../src/configs/nav';
 import styles from './index.module.scss';
 
-const Galery = ({ galery, pageDescription }) => {
+const Galery = ({ galery }) => {
   if (!galery || galery === undefined || galery === {}) {
     <NotFound />;
   }
@@ -18,10 +17,10 @@ const Galery = ({ galery, pageDescription }) => {
   const router = useRouter();
 
   const images = galery
-    ? galery.images.map((el) => {
+    ? galery.images.map((img) => {
         return {
-          src: `${API_UPLOADS_URL}/galeryimages/${el.url}`,
-          thumbnail: `${API_UPLOADS_URL}/galeryimages/${el.url}`,
+          src: urlBuilder(sanityClient).image(img).url(),
+          thumbnail: urlBuilder(sanityClient).image(img).url(),
           thumbnailWidth: 200,
           thumbnailHeight: 153
         };
@@ -32,24 +31,12 @@ const Galery = ({ galery, pageDescription }) => {
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Galeria - oyama-karate.eu
-        </title>
-        <meta
-          property='og:title'
-          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Galeria - oyama-karate.eu`}
-          key='ogtitle'
-        />
+        <title>{galery.name || 'Galeria'}</title>
+        <meta property='og:title' content={galery.name} key='ogtitle' />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
-        <meta name='description' content={pageDescription} />
-        <meta
-          property='og:description'
-          content={pageDescription}
-          key='ogdesc'
-        />
+        <meta name='description' content={galery.seoDesc} />
+        <meta property='og:description' content={galery.seoDesc} key='ogdesc' />
       </Head>
       {galery && (
         <article className={styles.infoPage}>
@@ -81,39 +68,48 @@ const Galery = ({ galery, pageDescription }) => {
 };
 
 export async function getStaticPaths() {
-  const data = await axios.get(`${API_URL}/galery`);
-  const params = [];
-  data.data.data.forEach((el) => {
-    params.push({
-      params: {
-        id: el.id,
-        slug: slugify(el.name, { lower: true })
-      }
-    });
-  });
+  const paths = await sanityClient.fetch(`
+    *[_type == "galeries"][] {
+      _id,
+      slug
+    }
+  `);
 
   return {
-    paths: params,
-    fallback: true // false or 'blocking'
+    paths: paths.map((path) => ({
+      params: {
+        slug: path.slug.current,
+        id: path._id
+      }
+    })),
+    fallback: true
   };
 }
 
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  const data = await axios.get(`${API_URL}/galery/${params.id}`);
-  const navConfig = await getNavConfig();
-  let pageDescription = data.data.data.pageDescription;
+  const { id = '', slug = '' } = params;
 
-  if (
-    !data.data.data.pageDescription ||
-    data.data.data.pageDescription === ''
-  ) {
-    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-    pageDescription = pageDesc.data.data.defaultPageDescription;
-  }
+  const navConfig = await getNavConfig();
+
+  const galery = await sanityClient.fetch(
+    `
+    *[_type == "galeries" && slug.current == $slug && _id == $id][0] {
+        _id,
+        name,
+        seoDesc,
+        seoKeyWords,
+        slug,
+        images
+      }
+    `,
+    { slug, id }
+  );
+
+  console.log('galery', galery);
 
   return {
-    props: { galery: data.data.data || {}, navConfig, pageDescription },
+    props: { galery: galery || {}, navConfig },
     revalidate: 3600
   };
 }

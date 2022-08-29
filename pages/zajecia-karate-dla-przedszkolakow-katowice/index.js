@@ -1,38 +1,20 @@
-import axios from 'axios';
+import urlBuilder from '@sanity/image-url';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import { sanityClient } from '../../sanity';
+import ArticleBody from '../../src/components/ArticleBody/ArticleBody';
 import ArticleListContainer from '../../src/components/shared/ArticleListContainer/ArticleListContainer';
-import { API_UPLOADS_URL, API_URL } from '../../src/configs/api';
 import { getNavConfig } from '../../src/configs/nav';
-import { SectionsProvider } from '../../src/context/sections/SectionsContext';
 import styles from './index.module.scss';
 
-const KinderPage = ({ kinderData, pageDescription }) => {
+const KinderPage = ({ page }) => {
   const imagesRef = useRef();
-  const {
-    firstImgUrl,
-    firstImgAlt,
-    secondImgUrl,
-    secondImgAlt,
-    thirdImgUrl,
-    thirdImgAlt
-  } = kinderData;
 
-  const images = [
-    {
-      url: firstImgUrl,
-      alt: firstImgAlt
-    },
-    {
-      url: secondImgUrl,
-      alt: secondImgAlt
-    },
-    {
-      url: thirdImgUrl,
-      alt: thirdImgAlt
-    }
-  ];
+  const images = page.images.map((img) => ({
+    url: urlBuilder(sanityClient).image(img).url(),
+    alt: img.alt
+  }));
 
   useEffect(() => {
     let imgIndex = 0;
@@ -51,87 +33,69 @@ const KinderPage = ({ kinderData, pageDescription }) => {
     <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <title>
-          Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Zajęcia Karate dla przedszkolaków -
-          oyama-karate.eu
-        </title>
-        <meta
-          property='og:title'
-          content={`Oyama Karate Katowice - Ligota - Panewniki - Piotrowice - Podlesie,
-          oraz Gliwice - Oyama-karate.eu - Zajęcia Karate dla przedszkolaków - oyama-karate.eu`}
-          key='ogtitle'
-        />
+        <title>{page.title}</title>
+        <meta property='og:title' content={page.title} key='ogtitle' />
         <meta key='robots' name='robots' content='index,follow' />
         <meta key='googlebot' name='googlebot' content='index,follow' />
-        <meta name='description' content={pageDescription} />
-        <meta
-          property='og:description'
-          content={pageDescription}
-          key='ogdesc'
-        />
+        <meta name='description' content={page.seoDesc} />
+        <meta property='og:description' content={page.seoDesc} key='ogdesc' />
       </Head>
-      <SectionsProvider>
-        <article className={styles.kinderPageContent}>
-          <div className={styles.kinderPageGridContainer}>
-            <div className={styles.kinderContent}>
-              <div className={styles.container}>
-                <header>
-                  <h1 className={styles.title}>{kinderData.title}</h1>
-                </header>
-                <main>
-                  <section ref={imagesRef} className={styles.imagesWrapper}>
-                    {images.map((img, index) => (
-                      <img
-                        key={index}
-                        className={index !== 0 ? styles.hidden : ''}
-                        src={`${API_UPLOADS_URL}/preschooler/${img.url}`}
-                        alt={img.alt}
-                      />
-                    ))}
-                  </section>
-                  <section
-                    className={`${styles.text} ql-editor`}
-                    dangerouslySetInnerHTML={{ __html: kinderData.content }}
-                  ></section>
-                  <section className={styles.ad}>
-                    <Link href='/harmonogram-zajec-karate'>
-                      Sprawdź nasz harmonogram zajęć dla przedszkolaków
-                    </Link>
-                  </section>
-                </main>
-              </div>
-            </div>
-            <div className={styles.articleListContainer}>
-              <ArticleListContainer />
+      <article className={styles.kinderPageContent}>
+        <div className={styles.kinderPageGridContainer}>
+          <div className={styles.kinderContent}>
+            <div className={styles.container}>
+              <header>
+                <h1 className={styles.title}>{page.title}</h1>
+              </header>
+              <main>
+                <section ref={imagesRef} className={styles.imagesWrapper}>
+                  {images.map((img, index) => (
+                    <img
+                      key={index}
+                      className={index !== 0 ? styles.hidden : ''}
+                      src={urlBuilder(sanityClient).image(img.url).url()}
+                      alt={img.alt}
+                    />
+                  ))}
+                </section>
+                <section className={styles.text}>
+                  <ArticleBody body={page.content} />
+                </section>
+                <section className={styles.ad}>
+                  <Link href='/harmonogram-zajec-karate'>
+                    Sprawdź nasz harmonogram zajęć dla przedszkolaków
+                  </Link>
+                </section>
+              </main>
             </div>
           </div>
-        </article>
-      </SectionsProvider>
+          <div className={styles.articleListContainer}>
+            <ArticleListContainer />
+          </div>
+        </div>
+      </article>
     </>
   );
 };
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/preschooler`);
   const navConfig = await getNavConfig();
 
-  let pageDescription = data.data.data.pageDescription;
-
-  if (
-    !data.data.data.pageDescription ||
-    data.data.data.pageDescription === ''
-  ) {
-    const pageDesc = await axios.get(`${API_URL}/homepage/description`);
-    pageDescription = pageDesc.data.data.defaultPageDescription;
-  }
+  const page = await sanityClient.fetch(`
+    *[_type == "preschoolers"][0] {
+      seoDesc,
+      seoKeyWords,
+      images,
+      title,
+      content
+    }
+  `);
 
   return {
     props: {
-      kinderData: data.data.data,
-      navConfig,
-      pageDescription
+      page,
+      navConfig
     },
     revalidate: 3600
   };

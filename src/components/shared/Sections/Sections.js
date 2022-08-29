@@ -1,26 +1,43 @@
+import urlBuilder from '@sanity/image-url';
 import { useContext, useEffect, useState } from 'react';
+import { sanityClient } from '../../../../sanity';
 import SectionsContext from '../../../context/sections/SectionsContext';
+import Loader from '../Loader/Loader';
 import SectionInfo from '../SectionInfo/SectionInfo';
 import styles from './Sections.module.scss';
-import axios from 'axios';
-import Loader from '../Loader/Loader';
-import { API_UPLOADS_URL, API_URL } from '../../../configs/api';
 
 const Sections = ({ firtsSectionToDisplay }) => {
   const { sectionToDisplay } = useContext(SectionsContext);
   const [section, setSection] = useState(firtsSectionToDisplay);
   const [loader, setLoader] = useState(false);
 
+  console.log(firtsSectionToDisplay);
+
   useEffect(async () => {
     setLoader(true);
-    if (sectionToDisplay.id) {
-      const data = await axios.get(
-        `${API_URL}/sections/${sectionToDisplay.id}`
+    if (sectionToDisplay._id) {
+      const id = sectionToDisplay._id;
+      const sectionData = await sanityClient.fetch(
+        `
+        *[_type == "sections" && _id == $id][0] {
+          _id,
+          name,
+          label,
+          mainImage,
+          mainImageAlt,
+          description,
+          address,
+          googleMapsLink,
+          days,
+          scheduleRows
+        }
+      `,
+        { id }
       );
-      setSection(data.data.data);
+      setSection(sectionData);
       setLoader(false);
     }
-  }, [sectionToDisplay.id]);
+  }, [sectionToDisplay._id]);
 
   if (loader) {
     return <Loader />;
@@ -30,10 +47,10 @@ const Sections = ({ firtsSectionToDisplay }) => {
     <>
       <section className={`${styles.sectionsContainer}`}>
         <div className={styles.container}>
-          <h1 className={styles.place}>{sectionToDisplay.name}</h1>
+          <h1 className={styles.place}>{section.name}</h1>
           <img
-            src={`${API_UPLOADS_URL}/sections/${section.bigImgUrl}`}
-            alt={section.bigImgAlt}
+            src={urlBuilder(sanityClient).image(section.mainImage).url()}
+            alt={section.mainImgAlt}
             className={styles.groupPhoto}
           />
         </div>

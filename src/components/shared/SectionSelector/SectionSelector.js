@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { sanityClient } from '../../../../sanity';
 import { API_URL } from '../../../configs/api';
 import SectionsContext from '../../../context/sections/SectionsContext';
 import Loader from '../Loader/Loader';
@@ -11,9 +12,15 @@ const SectionSelector = () => {
   const [louder, setlouder] = useState(true);
 
   useEffect(async () => {
-    const data = await axios.get(`${API_URL}/sections/labels`);
-    setPlaces(data.data.data);
-    dispatch({ type: 'SET_SECTION_TO_DISPLAY', payload: data.data.data[0] });
+    const data = await sanityClient.fetch(`
+    *[_type == "sections"][] {
+      _id,
+      label
+    }
+  `);
+
+    setPlaces(data);
+    dispatch({ type: 'SET_SECTION_TO_DISPLAY', payload: data[0] });
     setlouder(false);
   }, []);
 
@@ -25,7 +32,7 @@ const SectionSelector = () => {
         <div
           key={places[i].id}
           className={`${styles.sectionSelectorButton} ${
-            sectionToDisplay.id === places[i].id && styles.active
+            sectionToDisplay._id === places[i]._id && styles.active
           }`}
           onClick={() =>
             dispatch({ type: 'SET_SECTION_TO_DISPLAY', payload: places[i] })

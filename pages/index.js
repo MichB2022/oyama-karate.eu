@@ -1,22 +1,18 @@
+import urlBuilder from '@sanity/image-url';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
-import axios from 'axios';
 import Head from 'next/head';
-// import '../styles/homepage.scss';
 import { useEffect, useState } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
-// import { useNavigate } from 'react-router-dom';
 import { ParallaxBanner, ParallaxProvider } from 'react-scroll-parallax';
+import { sanityClient } from '../sanity';
 import karateImg from '../src/assets/karate.jpeg';
-import landingPhoto from '../src/assets/landing.jpg';
 import ArticlesList from '../src/components/shared/ArticlesList/ArticlesList';
 import Button from '../src/components/shared/Button/Button';
 import ContactForm from '../src/components/shared/ContactForm/ContactForm';
 import GroupsAd from '../src/components/shared/GroupsAd/GroupsAd';
 import InstructorCard from '../src/components/shared/InstructorCard/InstructorCard';
-import { API_UPLOADS_URL, API_URL } from '../src/configs/api';
 import { getNavConfig } from '../src/configs/nav';
-// import Image from 'next/image'
 import styles from './index.module.scss';
 
 export default function Home({ instructors, homepage }) {
@@ -37,9 +33,9 @@ export default function Home({ instructors, homepage }) {
   }, []);
 
   const pageDescription =
-    homepage.pageDescription === ''
+    homepage.seoDesc === ''
       ? homepage.defaultPageDescription
-      : homepage.pageDescription;
+      : homepage.seoDesc;
 
   return (
     <>
@@ -68,7 +64,7 @@ export default function Home({ instructors, homepage }) {
         <section className={styles.landing}>
           <img
             className={styles.landingImage}
-            src={`${API_UPLOADS_URL}/homepage/${homepage.imgUrl}`}
+            src={urlBuilder(sanityClient).image(homepage.mainImage).url()}
             alt={homepage.imgAlt}
           />
           <div className={styles.welcomeCardWrapper}>
@@ -172,15 +168,35 @@ export default function Home({ instructors, homepage }) {
 
 // This also gets called at build time
 export async function getStaticProps() {
-  const data = await axios.get(`${API_URL}/instructors`);
-  const hpData = await axios.get(`${API_URL}/homepage`);
   const navConfig = await getNavConfig();
+  const homepageData = await sanityClient.fetch(`
+    *[_type == "homepage"][0] {
+      text,
+      seoDesc,
+      seoKeyWords,
+      mainImage,
+      mainImageAlt,
+      phone
+    }
+  `);
+
+  const instructors = await sanityClient.fetch(`
+    *[_type == "instructors"][] {
+      _id,
+      name,
+      title,
+      degree,
+      mainImage,
+      mainImageAlt,
+      shortenDesc
+    }
+  `);
 
   return {
     props: {
-      instructors: data.data.data || {},
+      instructors: instructors,
       navConfig: navConfig || {},
-      homepage: hpData.data.data
+      homepage: homepageData
     },
     revalidate: 3600
   };

@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { createContext, useEffect, useReducer, useState } from 'react';
-import { API_URL } from '../../configs/api';
+import { sanityClient } from '../../../sanity';
 import SectionsReducer from './SectionsReducer';
 
 const SectionsContext = createContext();
@@ -9,8 +8,22 @@ export const SectionsProvider = ({ children }) => {
   const [firstSection, setFirstSection] = useState({});
 
   useEffect(async () => {
-    const data = await axios.get(`${API_URL}/sections`);
-    setFirstSection(data.data.data[0]);
+    const section = await sanityClient.fetch(`
+      *[_type == "sections"][0] {
+        _id,
+        name,
+        label,
+        mainImage,
+        mainImageAlt,
+        description,
+        address,
+        googleMapsLink,
+        days,
+        scheduleRows
+      }
+    `);
+
+    setFirstSection(section);
   }, []);
 
   const initialState = {};

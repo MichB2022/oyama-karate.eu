@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { sanityClient } from '../../../../sanity';
 import { API_URL } from '../../../configs/api';
 import ArticleItem from '../ArticleItem/ArticleItem';
 import styles from './articlesList.module.scss';
@@ -11,18 +12,38 @@ const ArticlesList = ({
   articlesToShow,
   additionalClass
 }) => {
-  const [articles, setArtciles] = useState([]);
+  const [articles, setArtciles] = useState(articlesToShow || []);
 
   useEffect(async () => {
     if (articlesToShow) {
       setArtciles(articlesToShow);
     } else {
-      const data = await axios.get(
-        `${API_URL}/articles?page=1&perpage=${numberOfItems}`
+      const data = await sanityClient.fetch(
+        `
+        *[
+          _type == "articles" && date < now()
+        ] | order(date desc)[] {
+          _id,
+          articleCategory->{name},
+          date,
+          mainImage,
+          mainImageAlt,
+          slug,
+          shortenDesc,
+          title,
+        }[0...${numberOfItems}]
+      `
       );
-      setArtciles(data.data.data);
+
+      setArtciles(data);
     }
   }, []);
+
+  useEffect(async () => {
+    if (articlesToShow) {
+      setArtciles(articlesToShow);
+    }
+  }, [articlesToShow]);
 
   const generateArticleItems = (numberOfItems, currentArticleId, animation) => {
     const ArticleItems = [];
