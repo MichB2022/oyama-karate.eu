@@ -79,7 +79,6 @@
     letter-spacing: 2px;
     color: white;
     text-align: center;
-    -webkit-text-stroke: 1px black;
 
     @include media('>=tablet-portrait') {
       font-size: $large-font;
@@ -148,6 +147,7 @@
           text-transform: uppercase;
           transform: scale(0.94);
           animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
+          -webkit-text-stroke: 1px black;
         }
         @include animateText-6();
       }
