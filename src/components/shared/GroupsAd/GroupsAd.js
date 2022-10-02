@@ -1,37 +1,35 @@
 import Link from 'next/link';
-import adultsKarateImg from '../../../assets/adults-karate.jpeg';
-import familyKarateImg from '../../../assets/family-karate.jpeg';
-import teenagersKarateImg from '../../../assets/karate-teenagers.jpeg';
-import kidsKarateImg from '../../../assets/kids-karate.jpeg';
+import urlBuilder from '@sanity/image-url';
 import styles from './GroupsAd.module.scss';
+import { sanityClient } from '../../../../sanity';
 
-const GroupsAd = ({ animation }) => {
+const GroupsAd = ({ animation, images }) => {
   return (
     <div className={styles.groupsAdList}>
       <GroupAdItem
         title='DZIECI'
-        imgSrc={kidsKarateImg.src}
+        imgSrc={urlBuilder(sanityClient).image(images.kidsImage).url()}
         XImgPosition={-26}
         animation={animation}
         to='/zajecia-karate-dla-przedszkolakow-katowice'
       />
       <GroupAdItem
         title='MŁODZIEŻY'
-        imgSrc={teenagersKarateImg.src}
+        imgSrc={urlBuilder(sanityClient).image(images.teenagersImage).url()}
         XImgPosition={-3}
         animation={animation}
         to='/nasze-sekcje-karate-katowice'
       />
       <GroupAdItem
         title='DOROSŁYCH'
-        imgSrc={adultsKarateImg.src}
+        imgSrc={urlBuilder(sanityClient).image(images.adultsImage).url()}
         XImgPosition={0}
         animation={animation}
         to='/nasze-sekcje-karate-katowice'
       />
       <GroupAdItem
         title='RODZIN'
-        imgSrc={familyKarateImg.src}
+        imgSrc={urlBuilder(sanityClient).image(images.familyImage).url()}
         XImgPosition={-50}
         animation={animation}
         to='/nasze-sekcje-karate-katowice'

@@ -56,6 +56,9 @@ function ContactForm({ animation, btnAnimation }) {
           id='formContent'
         />
       </label>
+      <p>
+        Wysyłając formularz zgadzasz się z polityką prywatności naszego serwisu.
+      </p>
 
       <div className={styles.buttonContainer}>
         {sent && <p>Wysłano wiadomość!</p>}

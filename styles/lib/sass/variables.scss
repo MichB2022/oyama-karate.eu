@@ -9,13 +9,13 @@ $camp-color: rgb(0, 177, 0);
 $events-font-color: white;
 $past-event: rgb(141, 141, 141);
 
-$large-font: 24px;
-$bigger-font: 22px;
-$big-font: 20px;
-$medder-font: 18px;
-$med-font: 16px;
-$small-font: 14px;
-$tiny-font: 12px;
+$large-font: 26px;
+$bigger-font: 24px;
+$big-font: 22px;
+$medder-font: 20px;
+$med-font: 18px;
+$small-font: 16px;
+$tiny-font: 14px;
 
 @mixin flexCenter($direction) {
   display: flex;

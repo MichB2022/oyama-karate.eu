@@ -85,7 +85,7 @@ export default function Home({ instructors, homepage }) {
         <section className={styles.groups}>
           <div className={styles.container}>
             <h2>U nas znajdziesz treningi dla...</h2>
-            <GroupsAd />
+            <GroupsAd images={homepage.groupsImages} />
           </div>
         </section>
 
@@ -176,7 +176,11 @@ export async function getStaticProps() {
       seoKeyWords,
       mainImage,
       mainImageAlt,
-      phone
+      phone,
+      kidsImage,
+      teenagersImage,
+      adultsImage,
+      familyImage
     }
   `);
 
@@ -191,6 +195,13 @@ export async function getStaticProps() {
       shortenDesc
     }
   `);
+
+  homepageData.groupsImages = {
+    kidsImage: homepageData.kidsImage,
+    teenagersImage: homepageData.teenagersImage,
+    adultsImage: homepageData.adultsImage,
+    familyImage: homepageData.familyImage
+  };
 
   return {
     props: {
